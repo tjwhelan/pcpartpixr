@@ -2,13 +2,13 @@
 
 ## Summary
 
-WebSpatial 让 Web 标准中现有的 CSS Transform 能在[空间化 HTML 元素](../../../introduction/core-concepts.md#spatialized-html-element) 上带来真实 3D 空间中的变换效果（位移、旋转、缩放），而不是投影到 2D 平面上的效果。
+WebSpatial 让 Web 标准中现有的 CSS Transform 能在空间化 HTML 元素上带来真实 3D 空间中的变换效果（位移、旋转、缩放），而不是投影到 2D 平面上的效果。
 
 ## Applies To
 
 通过 WebSpatial SDK 在一个 HTML 元素上使用 Spatial Transform 的时候，需要元素被[标记为空间化 HTML 元素](../react-components/jsx-marker.md)。
 
-[3D 容器元素](../../../introduction/core-concepts.md#3d-content-container)（[`<Model>`](../react-components/Model.md) 和 [`<Reality>`](../react-components/Reality.md)）都是空间化 HTML 元素，所以也能作为一个 2D 面片（相当于 3D 容器的背板）使用 Spatial Transform。
+3D 容器元素（[`<Model>`](../react-components/Model.md) 和 [`<Reality>`](../react-components/Reality.md)）都是空间化 HTML 元素，所以也能作为一个 2D 面片（相当于 3D 容器的背板）使用 Spatial Transform。
 
 ## Mental Model
 

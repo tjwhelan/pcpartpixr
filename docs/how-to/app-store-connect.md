@@ -24,7 +24,7 @@
    1. 在你的开发者账号仪表板中，前往 [Certificates, Identifiers & Profiles -> Devices](https://developer.apple.com/account/resources/devices/list)。
    2. 添加测试设备并填写其详细信息。
 4. 构建并运行
-   1. 在 Web 项目中运行 [WebSpatial Builder 的 `build` 命令]()（必须提供 **Team ID** 和 **Bundle ID** 参数）。
+   1. 在 Web 项目中运行 WebSpatial Builder 的 `build` 命令（必须提供 **Team ID** 和 **Bundle ID** 参数）。
 
    ```bash
    webspatial-builder build --base=$PREVIEW_SERVER --bundle-id=$APPLE_BUNDLE_ID --teamId=$APPLE_TEAM_ID
@@ -42,7 +42,7 @@
    2. 输入 App Store 上架所需的信息（例如屏幕截图、宣传文案等），然后点击右上角的 **Save** 按钮。
    3. 配置 **App Review**、**General**、**Regulatory**、**Pricing**、**Privacy** 信息。
 2. 构建并上传
-   1. 在 Web 项目中运行 [WebSpatial Builder 的 `publish` 命令](https://webspatial.dev/docs/development-guide/enabling-webspatial-in-web-projects/step-2-add-build-tool-for-packaged-webspatial-apps#publish)（除了 **Team ID** 和 **Bundle ID** 之外，还必须提供[**版本**、**开发者账号**和**账户密码**]()）。
+   1. 在 Web 项目中运行 [WebSpatial Builder 的 `publish` 命令](https://webspatial.dev/docs/development-guide/enabling-webspatial-in-web-projects/step-2-add-build-tool-for-packaged-webspatial-apps#publish)（除了 **Team ID** 和 **Bundle ID** 之外，还必须提供**版本**、**开发者账号**和**账户密码**）。
 
    ```bash
    webspatial-builder publish --base=$PRODUCT_SERVER --bundle-id=$APPLE_BUNDLE_ID --teamId=$APPLE_TEAM_ID

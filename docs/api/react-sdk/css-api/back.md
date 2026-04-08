@@ -8,7 +8,7 @@
 
 通过 WebSpatial SDK 在一个 HTML 元素上使用 `back` 的时候，需要这个元素被[标记为空间化 HTML 元素](../react-components/jsx-marker.md)。
 
-[3D 容器元素](../../../introduction/core-concepts.md#3d-content-container)（[`<Model>`](../react-components/Model.md) 和 [`<Reality>`](../react-components/Reality.md)）都是空间化 HTML 元素，所以也能作为一个 2D 面片（相当于 3D 容器的背板）使用这个属性。
+3D 容器元素（[`<Model>`](../react-components/Model.md) 和 [`<Reality>`](../react-components/Reality.md)）都是空间化 HTML 元素，所以也能作为一个 2D 面片（相当于 3D 容器的背板）使用这个属性。
 
 只适用于设置了 `position: relative`、`position: absolute` 或 `position: fixed` 的 [positioned element](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/position)。
 
@@ -20,7 +20,7 @@
 
 `back` 表示的是这个 2D 面片跟「背后」之间的距离。这个「背后」对应的是哪个 2D 平面，由 `position` 的值决定：
 
-`back` 跟 `position: absolute` 组合使用时，可以理解为让当前元素相对于父层级中最近的[空间化 HTML 元素](../../../introduction/core-concepts.md#spatialized-html-element)对应的 2D 平面进行定位，如果父层级中没有空间化 HTML 元素，就会相对于当前网页对应的 2D 平面进行定位。
+`back` 跟 `position: absolute` 组合使用时，可以理解为让当前元素相对于父层级中最近的空间化 HTML 元素对应的 2D 平面进行定位，如果父层级中没有空间化 HTML 元素，就会相对于当前网页对应的 2D 平面进行定位。
 等价于让当前元素相对于元素原本所在的 2D 平面进行定位。
 
 > 这个理解方式不违背现有 Web 标准：

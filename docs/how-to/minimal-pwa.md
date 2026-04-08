@@ -10,7 +10,7 @@
 
    这个 manifest 的 URL 应该提供 [JSON 类型](https://mimesniff.spec.whatwg.org/#json-mime-type)的响应，比如 `application/manifest+json`。
 
-   > 更多信息可参考 [MDN](<(https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable)>) 和 [web.dev](https://web.dev/learn/pwa/web-app-manifest/)。
+   > 更多信息可参考 [MDN](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable) 和 [web.dev](https://web.dev/learn/pwa/web-app-manifest/)。
 
 3. Manifest 的 JSON 中至少要包含以下字段：
 

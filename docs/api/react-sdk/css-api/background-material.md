@@ -6,7 +6,7 @@
 
 ## Applies To
 
-WebSpatial SDK 暂时只支持在 html 元素（代表网页窗口本身）和被[标记为空间化 HTML 元素](../react-components/jsx-marker.md)的 2D HTML 元素（不含 [3D 容器元素](../../../introduction/core-concepts.md#3d-content-container)）上使用 `background-material`。
+WebSpatial SDK 暂时只支持在 html 元素（代表网页窗口本身）和被[标记为空间化 HTML 元素](../react-components/jsx-marker.md)的 2D HTML 元素（不含 3D 容器元素）上使用 `background-material`。
 
 ## Mental Model
 

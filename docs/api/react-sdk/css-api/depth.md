@@ -2,7 +2,7 @@
 
 ## Summary
 
-`depth` 是 WebSpatial 在现有 Web 标准基础上新增的 CSS 属性，让 [3D 容器元素](../../../introduction/core-concepts.md#3d-content-container)在 CSS 样式里不仅能控制宽度和高度，也能控制「厚度/深度」。
+`depth` 是 WebSpatial 在现有 Web 标准基础上新增的 CSS 属性，让 3D 容器元素在 CSS 样式里不仅能控制宽度和高度，也能控制「厚度/深度」。
 
 ## Applies To
 
