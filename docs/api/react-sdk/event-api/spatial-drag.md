@@ -2,21 +2,21 @@
 
 ## Summary
 
-表示完成了一次对空间目标的单手「选择、激活、持续」动作，无论这种交互是通过间接的「注视 + 捏合」完成，还是通过直接触摸完成。
+Represents a completed one-handed "select, activate, and hold" action on a target in space, whether the interaction [is performed through indirect "gaze + pinch" or direct touch](../../../concepts/natural-interactions.md).
 
 ## Trigger Conditions
 
-监听了 Spatial Drag 系列事件的空间化 2D HTML 元素，在自身内容占据的 3D 空间位置被「捏住不放」后，会触发这套事件。
+If a [spatialized 2D HTML element](../../../concepts/spatialized-html-elements.md) listens for the Spatial Drag event series, the series is triggered after the 3D spatial position occupied by its own content is pinched and held.
 
-监听了 Spatial Drag 系列事件的 3D 容器元素，在自身的可交互内容占据的 3D 空间位置被「捏住不放」后，会触发这套事件。
+If a [3D container element](../../../concepts/3d-content-containers.md) listens for the Spatial Drag event series, the series is triggered after the 3D spatial position occupied by its own interactive content is pinched and held.
 
 ## Mental Model
 
-可以在 3D 空间中的任意方向上拖拽，在空间中任意位置放置。
+You can drag in any direction in 3D space and place the target at any location in space.
 
 ## Event Type Signature
 
-事件类型名称：
+Event type names:
 
 - `spatialdragstart`
 - `spatialdrag`
@@ -24,7 +24,7 @@
 
 ## React Usage
 
-JSX 中可用的事件属性名
+Event prop names available in JSX:
 
 - `onSpatialDragStart`
 - `onSpatialDrag`
@@ -32,50 +32,38 @@ JSX 中可用的事件属性名
 
 ## Native DOM Usage
 
-WebSpatial SDK 现阶段不允许在 DOM 元素（包括来自 Ref 的）上直接监听空间事件。
+At the current stage, the [WebSpatial SDK](../../../introduction/getting-started.md#webspatial-sdk) does not allow listening to spatial events directly on DOM elements, including those obtained from refs.
 
 ## Event Lifecycle
 
-「选择」过程中不触发事件，捏住不放刚开始触发 `spatialdragstart`， 「激活」后「保持」，会持续触发`spatialdrag`，松开后「结束」，触发 `spatialdragend`。
+No event is triggered during the "selection" phase. When pinch-and-hold begins, `spatialdragstart` is triggered. After activation, holding continues to trigger `spatialdrag`. Releasing ends the action and triggers `spatialdragend`.
 
 ## SpatialDragStartEvent Payload
 
-### offsetX, offsetY, offsetZ
+### `offsetX`, `offsetY`, `offsetZ`
 
-值是以 px 为单位的浮点数。
+The values are floating-point numbers in `px`.
 
-代表激活位置的 X、Y、Z 坐标。
+They represent the X, Y, and Z coordinates of the activation position.
 
-坐标系：触发事件的空间化 HTML 元素（包括 3D 容器元素）对应 的本地坐标系，元素对应的 2D 面片的左上角是原点。
+Coordinate system: the [local coordinate system](../js-api/convertCoordinate.md) of the [spatialized 2D HTML element](../../../concepts/spatialized-html-elements.md) that triggered the event, including 3D container elements. It uses a left-handed coordinate system with the origin at the top-left corner of the element's 2D plane, Y pointing downward, and Z pointing toward the user.
 
-### clientX, clientY, clientZ
+### `clientX`, `clientY`, `clientZ`
 
-值是以 px 为单位的浮点数。
+The values are floating-point numbers in `px`.
 
-代表激活位置的 X、Y、Z 坐标。
+They represent the X, Y, and Z coordinates of the activation position.
 
-坐标系：当前空间场景容器（窗口）对应的全局坐标系，网页平面的左上角是原点。
+Coordinate system: the [global coordinate system](../js-api/convertCoordinate.md) of the current [Spatial Scene container](../../../concepts/spatial-scenes.md). It uses a left-handed coordinate system with the origin at the top-left corner of the Spatial Scene's backplate, Y pointing downward, and Z pointing toward the user.
 
 ## SpatialDragEvent Payload
 
 ### translationX, translationY, translationZ
 
-值是以 px 为单位的浮点数。
+The values are floating-point numbers in `px`.
 
-相对于拖拽起点的偏移量。
+They represent the offset relative to the drag start position.
 
 ## SpatialDragEndEvent Payload
 
-`spatialdragend` 事件回调获得的 SpatialDragEndEvent 对象没有额外属性。
-
-## Propagation
-
-TODO：待补充
-
-## Cancelation and Default Behavior
-
-TODO：待补充
-
-## Gesture Arbitration
-
-TODO：待补充
+The `SpatialDragEndEvent` object passed to the `spatialdragend` event callback has no extra properties.

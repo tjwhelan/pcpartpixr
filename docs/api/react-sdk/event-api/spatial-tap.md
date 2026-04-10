@@ -2,60 +2,48 @@
 
 ## Summary
 
-表示完成了一次对空间目标的单手「选择、激活」动作，无论这种交互是通过间接的「注视 + 捏合」完成，还是通过直接触摸完成。
+Represents a completed one-handed "select and activate" action on a target in space, whether the interaction is [performed through indirect "gaze + pinch" or direct touch](../../../concepts/natural-interactions.md).
 
 ## Trigger Conditions
 
-监听了 Spatial Tap 事件的空间化 2D HTML 元素，在自身内容占据的 3D 空间位置被点击后，会触发这个事件。
+If a [spatialized 2D HTML element](../../../concepts/spatialized-html-elements.md) listens for Spatial Tap, the event is triggered after the 3D spatial position occupied by its own content is tapped.
 
-监听了 Spatial Tap 事件的 3D 容器元素，在自身的可交互内容占据的 3D 空间位置被点击后，会触发这个事件
+If a [3D container element](../../../concepts/3d-content-containers.md) listens for Spatial Tap, the event is triggered after the 3D spatial position occupied by its own interactive content is tapped.
 
 ## Mental Model
 
-可以把 Spatial Tap 理解为「3D 空间中的 click 事件」。
+Spatial Tap can be understood as a `click` event in 3D space.
 
 ## Event Type Signature
 
-事件类型名称：`spatialtap`
+Event type name: `spatialtap`
 
 ## React Usage
 
-JSX 中可用的事件属性名：`onSpatialTap`
+Event prop name available in JSX: `onSpatialTap`
 
 ## Native DOM Usage
 
-WebSpatial SDK 现阶段不允许在 DOM 元素（包括来自 Ref 的）上直接监听空间事件。
+At the current stage, the [WebSpatial SDK](../../../introduction/getting-started.md#webspatial-sdk) does not allow listening to spatial events directly on DOM elements, including those obtained from refs.
 
 ## Event Lifecycle
 
-「选择」过程中不触发事件，捏住立刻放开，触发 `spatialtap`。
+No event is triggered during the "selection" phase. Pinch and release immediately, and `spatialtap` is triggered.
 
 ## SpatialTapEvent Payload
 
-### offsetX, offsetY, offsetZ
+### `offsetX`, `offsetY`, `offsetZ`
 
-值是以 px 为单位的浮点数。
+The values are floating-point numbers in `px`.
 
-代表点击位置的 X、Y、Z 坐标。
+They represent the X, Y, and Z coordinates of the tapped position.
 
-坐标系：触发事件的空间化 HTML 元素（包括 3D 容器元素）对应 的本地坐标系，元素对应的 2D 面片的左上角是原点。
+Coordinate system: the [local coordinate system](../js-api/convertCoordinate.md) of the [spatialized 2D HTML element](../../../concepts/spatialized-html-elements.md) that triggered the event, including 3D container elements. It uses a left-handed coordinate system with the origin at the top-left corner of the element's 2D plane, Y pointing downward, and Z pointing toward the user.
 
-### clientX, clientY, clientZ
+### `clientX`, `clientY`, `clientZ`
 
-值是以 px 为单位的浮点数。
+The values are floating-point numbers in `px`.
 
-代表点击位置的 X、Y、Z 坐标。
+They represent the X, Y, and Z coordinates of the tapped position.
 
-坐标系：当前空间场景容器（窗口）对应的全局坐标系，网页平面的左上角是原点。
-
-## Propagation
-
-TODO：待补充
-
-## Cancelation and Default Behavior
-
-TODO：待补充
-
-## Gesture Arbitration
-
-TODO：待补充
+Coordinate system: the [global coordinate system](../js-api/convertCoordinate.md) of the current [Spatial Scene container](../../../concepts/spatial-scenes.md). It uses a left-handed coordinate system with the origin at the top-left corner of the Spatial Scene's backplate, Y pointing downward, and Z pointing toward the user.

@@ -2,60 +2,48 @@
 
 ## Summary
 
-表示完成了一次对空间目标的双手「选择、激活、持续」动作，起到旋转作用。无论这种交互是通过间接的「注视 + 捏合」完成，还是通过直接触摸完成。
+Represents a completed two-handed "select, activate, and hold" action on a target in space that produces rotation, whether the interaction is [performed through indirect "gaze + pinch" or direct touch](../../../concepts/natural-interactions.md).
 
 ## Trigger Conditions
 
-监听了 Spatial Rotate 系列事件的空间化 2D HTML 元素，在自身内容占据的 3D 空间位置被「捏住不放」后，会触发这套事件。
+If a [spatialized 2D HTML element](../../../concepts/spatialized-html-elements.md) listens for the Spatial Rotate event series, the series is triggered after the 3D spatial position occupied by its own content is pinched and held.
 
-监听了 Spatial Rotate 系列事件的 3D 容器元素，在自身的可交互内容占据的 3D 空间位置被「捏住不放」后，会触发这套事件。
+If a [3D container element](../../../concepts/3d-content-containers.md) listens for the Spatial Rotate event series, the series is triggered after the 3D spatial position occupied by its own interactive content is pinched and held.
 
 ## Mental Model
 
-双手之间的连线（相当于一个真实物体）可以在 3D 空间中做任意角度的旋转。
+The line between the two hands, effectively like a real object, can rotate at arbitrary angles in 3D space.
 
 ## Event Type Signature
 
-事件类型名称：
+Event type names:
 
 - `spatialrotate`
 - `spatialrotateend`
 
 ## React Usage
 
-JSX 中可用的事件属性名
+Event prop names available in JSX:
 
 - `onSpatialRotate`
 - `onSpatialRotateEnd`
 
 ## Native DOM Usage
 
-WebSpatial SDK 现阶段不允许在 DOM 元素（包括来自 Ref 的）上直接监听空间事件。
+At the current stage, the [WebSpatial SDK](../../../introduction/getting-started.md#webspatial-sdk) does not allow listening to spatial events directly on DOM elements, including those obtained from refs.
 
 ## Event Lifecycle
 
-「选择」过程中不触发事件，捏住不放「激活」后「保持」，会持续触发`spatialrotate`，松开后「结束」，触发 `spatialrotateend`。
+No event is triggered during the "selection" phase. After pinch-and-hold activates, `spatialrotate` is triggered continuously while the hold continues. Releasing ends the action and triggers `spatialrotateend`.
 
 ## SpatialRotateEvent Payload
 
-### quaternion
+### `quaternion`
 
-值是四元数。
+The value is a quaternion.
 
-表示相对于初始状态的旋转量，其中包含旋转轴的信息。
+It represents the amount of rotation relative to the initial state and includes information about the rotation axis.
 
 ## SpatialRotateEndEvent Payload
 
-`spatialrotateend` 事件回调获得的 SpatialRotateEndEvent 对象没有额外属性。
-
-## Propagation
-
-TODO：待补充
-
-## Cancelation and Default Behavior
-
-TODO：待补充
-
-## Gesture Arbitration
-
-TODO：待补充
+The `SpatialRotateEndEvent` object passed to the `spatialrotateend` event callback has no extra properties.

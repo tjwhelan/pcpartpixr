@@ -2,60 +2,48 @@
 
 ## Summary
 
-表示完成了一次对空间目标的双手「选择、激活、持续」动作，起到缩放作用。无论这种交互是通过间接的「注视 + 捏合」完成，还是通过直接触摸完成。
+Represents a completed two-handed "select, activate, and hold" action on a target in space that produces scaling, whether the interaction is [performed through indirect "gaze + pinch" or direct touch](../../../concepts/natural-interactions.md).
 
 ## Trigger Conditions
 
-监听了 Spatial Magnify 系列事件的空间化 2D HTML 元素，在自身内容占据的 3D 空间位置被「捏住不放」后，会触发这套事件。
+If a [spatialized 2D HTML element](../../../concepts/spatialized-html-elements.md) listens for the Spatial Magnify event series, the series is triggered after the 3D spatial position occupied by its own content is pinched and held.
 
-监听了 Spatial Magnify 系列事件的 3D 容器元素，在自身的可交互内容占据的 3D 空间位置被「捏住不放」后，会触发这套事件。
+If a [3D container element](../../../concepts/3d-content-containers.md) listens for the Spatial Magnify event series, the series is triggered after the 3D spatial position occupied by its own interactive content is pinched and held.
 
 ## Mental Model
 
-双手之间的连线（相当于一个真实物体）可以在 3D 空间中做拉伸。
+The line between the two hands, effectively like a real object, can be stretched in 3D space.
 
 ## Event Type Signature
 
-事件类型名称：
+Event type names:
 
 - `spatialmagnify`
 - `spatialmagnifyend`
 
 ## React Usage
 
-JSX 中可用的事件属性名
+Event prop names available in JSX:
 
 - `onSpatialMagnify`
 - `onSpatialMagnifyEnd`
 
 ## Native DOM Usage
 
-WebSpatial SDK 现阶段不允许在 DOM 元素（包括来自 Ref 的）上直接监听空间事件。
+At the current stage, the [WebSpatial SDK](../../../introduction/getting-started.md#webspatial-sdk) does not allow listening to spatial events directly on DOM elements, including those obtained from refs.
 
 ## Event Lifecycle
 
-「选择」过程中不触发事件，捏住不放「激活」后「保持」，会持续触发`spatialmagnify`，松开后「结束」，触发 `spatialmagnifyend`。
+No event is triggered during the "selection" phase. After pinch-and-hold activates, `spatialmagnify` is triggered continuously while the hold continues. Releasing ends the action and triggers `spatialmagnifyend`.
 
 ## SpatialMagnifyEvent Payload
 
-### magnification
+### `magnification`
 
-值是百分比数字，比如 1 表示原始大小， 1.5 表示放大到 150%。
+The value is a percentage-like number. For example, `1` means the original size and `1.5` means scaled to 150%.
 
-表示相对于初始状态的缩放量。
+It represents the amount of scaling relative to the initial state.
 
 ## SpatialMagnifyEndEvent Payload
 
-`spatialmagnifyend` 事件回调获得的 SpatialMagnifyEndEvent 对象没有额外属性。
-
-## Propagation
-
-TODO：待补充
-
-## Cancelation and Default Behavior
-
-TODO：待补充
-
-## Gesture Arbitration
-
-TODO：待补充
+The `SpatialMagnifyEndEvent` object passed to the `spatialmagnifyend` event callback has no extra properties.

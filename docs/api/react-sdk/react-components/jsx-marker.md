@@ -1,34 +1,36 @@
-# JSX 标记
+# JSX Markers
 
-WebSpatial SDK 支持把大部分普通 HTML 元素转变成空间化 HTML 元素，但出于性能、开源生态兼容性等方面的考虑，现阶段需要开发者在 JSX 代码中给这些 HTML 元素加上特殊标记。
+The [WebSpatial SDK](../../../introduction/getting-started.md#webspatial-sdk) can turn most ordinary HTML elements into [spatialized HTML elements](../../../concepts/spatialized-html-elements.md), but for performance, compatibility with the open-source ecosystem, and similar reasons, developers currently need to add special markers to these HTML elements in JSX code.
 
 ## `enable-xr`
 
-这个特殊标记表示把一个 HTML 元素转变成空间化 HTML 元素。
+This special marker turns an HTML element into a spatialized HTML element.
 
-为了兼容第三方开源库，SDK 支持三种标记方式：
+To remain compatible with third-party open-source libraries, the SDK supports three marking styles:
 
-1. 将属性 `enable-xr` 作为 HTML 属性传给元素：
+1. Pass the `enable-xr` attribute as an HTML attribute on the element:
 
    ```html
    <div className="card" enable-xr></div>
    ```
 
-2. 将 `__enableXr__` 添加到元素的 `className` 中：
+2. Add `__enableXr__` to the element's `className`:
 
    ```html
    <div className="card __enableXr__"></div>
    ```
 
-3. 在元素的内联样式中添加 `enableXr: true`:
+3. Add `enableXr: true` in the element's inline style:
 
-   ```html
-   <div className="card" style={{ enableXr: true, marginTop: '10px' }}>
+   ```js
+   <div className="card" style={{ enableXr: true, marginTop: "10px" }}></div>
    ```
+
+> Using this marker on [`<Model>`](./Model.md) upgrades the element from the Web standard model element, which can only render a 3D model inside a flat canvas, into a [static 3D container element](../../../concepts/3d-content-containers.md) that can render a 3D model in space.
 
 ### `enable-xr-monitor`
 
-把这个特殊标记添加空间化 HTML 元素的某个父元素上，可以让 WebSpatial SDK 监听这个父元素中内容的变化，如果这些变化会影响到了空间化 HTML 元素的尺寸和在 X/Y 轴上的布局位置，就可以及时同步到空间化 HTML 元素上。
+Adding this special marker to a parent element of a [spatialized HTML element](../../../concepts/spatialized-html-elements.md) allows WebSpatial SDK to monitor changes to the content inside that parent. If those changes affect the [size or X/Y layout position](../../../concepts/spatialized-html-elements.md) of the spatialized HTML element, the SDK can synchronize the updates to the spatialized HTML element in time.
 
 ```js
 function CardList() {

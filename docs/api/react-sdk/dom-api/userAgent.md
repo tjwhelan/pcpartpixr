@@ -2,44 +2,34 @@
 
 ## Summary
 
-读取 Volume 类型空间场景容器（窗口）的深度/厚度。
+Obtains information about the current device, operating system, and runtime environment, including information about the [Web Runtime](../../../concepts/webspatial-app.md#web-runtime) and [WebSpatial Runtime](../../../concepts/webspatial-app.md#webspatial-runtime).
 
 ## Exposed On
 
-`Navigator` 对象上可以访问这个属性。
+This property is available on the `Navigator` object.
 
 ## Mental Model
 
-如果 User Agent 字符串：
+If the User Agent string matches `/WebSpatial\/(\S+)/`, the current runtime environment has WebSpatial Runtime, and the captured version number is the npm package version of the [React SDK](../../../introduction/getting-started.md#installation) that this runtime fully supports.
 
-如果能匹配到 `/WebSpatial\/(\S+)/`，说明当前运行环境有 WebSpatial Runtime，版本号是这个 Runtime 能全面支持的 React SDK 的 npm 包版本。
+If the User Agent string matches `/\sVR\s/`, the current runtime environment supports WebXR.
 
-如果能匹配到 `/\sVR\s/`，说明当前运行环境支持 WebXR。
+If the User Agent string matches `\swv\)`, the current Web Runtime is WebView.
 
-如果能匹配到 `\swv\)`，说明当前运行环境的 Web Runtime 是 WebView。
+If the User Agent string matches `/WSAppShell\/(\S+)/`, the current runtime environment is a [Packaged WebSpatial App](../../../concepts/webspatial-app.md#packaged-webspatial-app) that includes WebSpatial Runtime. If it also matches `"Macintosh"`, the environment is visionOS.
 
-如果能匹配到 `/WSAppShell\/(\S+)/`，说明当前运行环境是自带 WebSpatial Runtime 的 Packaged WebSpatial App。如果还能匹配到 `"Macintosh"`，说明是 visionOS 环境。
-
-如果能匹配到 `/PicoWebApp\/(\S+)/`，说明当前运行环境是 PICO OS 6 的 Web App Runtime。
+If the User Agent string matches `/PicoWebApp\/(\S+)/`, the current runtime environment is the [Web App Runtime of PICO OS 6](https://developer.picoxr.com/document/web/web-platform/).
 
 ## Read / Write Semantics
 
-只读。
+Read-only.
 
-示例：
+Example:
 
 ```js
-const ua = Navigator.userAgent.toString();
+const ua = navigator.userAgent.toString();
 ```
-
-## Coordinate Space and Units
-
-TODO：待补充
-
-## Timing
-
-TODO：待补充
 
 ## Fallback Behavior
 
-在不支持 WebSpatial 的环境里，User Agent 字符串里不存在 `WebSpatial` 字段。
+In environments that do not support WebSpatial, meaning there is no WebSpatial Runtime, the User Agent string does not contain a `WebSpatial` field.

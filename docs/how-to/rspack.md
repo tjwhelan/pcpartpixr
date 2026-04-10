@@ -1,8 +1,8 @@
 # How to configure the JSX runtime in Rspack-based projects
 
-基于 [Rspack](https://www.rspack.dev/)/[Rsbuild](https://rsbuild.rs/) 的 React 项目不能[用 tsconfig 的`jsxImportSource` 配置 JSX Runtime](../introduction/getting-started.md#set-up-your-project)，而是需要在 swc-loader 里配置。
+React projects based on [Rspack](https://www.rspack.dev/)/[Rsbuild](https://rsbuild.rs/) cannot [configure the JSX Runtime with `jsxImportSource` in `tsconfig`](../introduction/getting-started.md#set-up-your-project). Instead, they need to configure it in `swc-loader`.
 
-基于 Rsbuild 的项目需要使用 React Plugin 的 [`swcReactOptions`](https://rsbuild.rs/plugins/list/plugin-react#swcreactoptions) 来配置：
+Projects based on Rsbuild need to use the [`swcReactOptions`](https://rsbuild.rs/plugins/list/plugin-react#swcreactoptions) option in the React Plugin:
 
 ```js
 // rsbuild.config.ts
@@ -17,9 +17,10 @@ export default defineConfig({
         importSource: "@webspatial/react-sdk",
       },
     }),
+// ...
 ```
 
-基于 Rspack 的项目需要使用 [`builtin:swc-loader`](https://www.rspack.dev/guide/features/builtin-swc-loader#builtin-swc-loader) 来配置：
+Projects based on Rspack need to use [`builtin:swc-loader`](https://www.rspack.dev/guide/features/builtin-swc-loader#builtin-swc-loader):
 
 ```js
 // rspack.config.mjs
@@ -45,4 +46,5 @@ export default {
         },
         type: "javascript/auto",
       },
+// ...
 ```

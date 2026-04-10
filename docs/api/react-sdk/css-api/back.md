@@ -2,42 +2,42 @@
 
 ## Summary
 
-`back` 是 WebSpatial 在现有 Web 标准基础上新增的 CSS 属性，提供最基本的在 3D 空间中布局的能力，可以让 HTML 元素作为 2D 面片被「抬升」到网页平面前方的空间中。
+`back` is a new CSS property added by WebSpatial on top of existing Web standards. It provides the most basic layout capability in 3D space, allowing an HTML element to be "lifted" as a 2D plane into the space in front of the webpage plane.
 
 ## Applies To
 
-通过 WebSpatial SDK 在一个 HTML 元素上使用 `back` 的时候，需要这个元素被[标记为空间化 HTML 元素](../react-components/jsx-marker.md)。
+When using `back` on an HTML element through the [WebSpatial SDK](../../../introduction/getting-started.md#webspatial-sdk), the element must be [marked as a spatialized HTML element](../react-components/jsx-marker.md).
 
-3D 容器元素（[`<Model>`](../react-components/Model.md) 和 [`<Reality>`](../react-components/Reality.md)）都是空间化 HTML 元素，所以也能作为一个 2D 面片（相当于 3D 容器的背板）使用这个属性。
+[3D container elements](../../../concepts/3d-content-containers.md), namely [`<Model>`](../react-components/Model.md) and [`<Reality>`](../react-components/Reality.md), are also [spatialized HTML elements](../../../concepts/spatialized-html-elements.md), so they can use this property as a 2D plane as well, effectively the backplate of the 3D container.
 
-只适用于设置了 `position: relative`、`position: absolute` 或 `position: fixed` 的 [positioned element](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/position)。
+It only applies to [positioned elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/position) with `position: relative`, `position: absolute`, or `position: fixed`.
 
 ## Mental Model
 
-跟 `top`, `left`, `bottom`, `right` 一样属于 [inset 属性](https://developer.mozilla.org/en-US/docs/Glossary/Inset_properties)，但影响的不是 HTML 元素在 X/Y 轴上的位置，而是元素在 Z 轴上的位置，相当于让元素沿着垂直于网页平面的 Z 轴方向，在网页平面前方的 3D 空间中定位，作为一个 2D 面片悬浮在空间中。
+Like `top`, `left`, `bottom`, and `right`, it is an [inset property](https://developer.mozilla.org/en-US/docs/Glossary/Inset_properties), but instead of affecting the HTML element's position on the X and Y axes, it affects the element's position on the Z axis. In effect, it positions the element along the Z axis that is perpendicular to the webpage plane, so the element floats as a 2D plane in the 3D space in front of the webpage plane.
 
-这个 2D 面片「浮起」后，在空间中 X/Y 轴上的位置，仍然由网页的 HTML/CSS 布局系统决定。
+After this 2D plane is "lifted", its X/Y position in space is still determined by the webpage's HTML/CSS layout system.
 
-`back` 表示的是这个 2D 面片跟「背后」之间的距离。这个「背后」对应的是哪个 2D 平面，由 `position` 的值决定：
+`back` represents the distance between this 2D plane and what lies "behind" it. Which 2D plane counts as "behind" depends on the value of `position`:
 
-`back` 跟 `position: absolute` 组合使用时，可以理解为让当前元素相对于父层级中最近的空间化 HTML 元素对应的 2D 平面进行定位，如果父层级中没有空间化 HTML 元素，就会相对于当前网页对应的 2D 平面进行定位。
-等价于让当前元素相对于元素原本所在的 2D 平面进行定位。
+When `back` is used with `position: absolute`, it can be understood as positioning the current element relative to the 2D plane corresponding to the nearest [spatialized HTML element](../../../concepts/spatialized-html-elements.md#spatialized-html-elements) in the parent hierarchy. If there is no spatialized HTML element in the parent hierarchy, it is positioned relative to the 2D plane corresponding to the current webpage.
+This is equivalent to positioning the current element relative to the 2D plane where the element originally existed.
 
-> 这个理解方式不违背现有 Web 标准：
-> 在 Web 标准中，inset 属性在跟 `position: absolute` 或 `position: fixed` 组合使用时，元素是相对于父层级中距离最近的 [containing block](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block)（可理解为 `position` 值不是 `static` 的元素）进行定位。
-> 一个 HTML 元素被标记为空间化 HTML 元素后，就自动成为了 containing block，相当于被设置为 `position: relative`。
-> 如果当前元素和父层级中最近的空间化 HTML 元素之间还有其他 `position: relative` 的父元素，由于这个父元素不是空间化 HTML 元素，不能「浮起」，所以一定位于父层级中最近的空间化 HTML 元素对应的 2D 平面上，`back` 的最终结果都是相对于这个 2D 平面进行定位。
+> This interpretation does not violate existing Web standards:
+> In Web standards, when inset properties are used with `position: absolute` or `position: fixed`, the element is positioned relative to the nearest [containing block](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block) in the parent hierarchy, which can be understood as the nearest element whose `position` is not `static`.
+> Once an HTML element is marked as a spatialized HTML element, it automatically becomes a containing block, effectively as if it had `position: relative`.
+> If there are other parent elements with `position: relative` between the current element and the nearest spatialized HTML element, those parent elements cannot "float" because they are not spatialized HTML elements, so they must remain on the 2D plane of the nearest spatialized HTML element. As a result, the final effect of `back` is still positioning relative to that 2D plane.
 
-`back` 跟 `position: fixed` 组合使用时，当前元素始终相对于 [initial containing block](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block) （也就是 `<html>` 元素，相当于当前网页对应的 2D 平面）进行定位，并且不会随页面滚动。
+When `back` is used with `position: fixed`, the current element is always positioned relative to the [initial containing block](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block), which is the `<html>` element and effectively the 2D plane corresponding to the current webpage, and it does not move with page scrolling.
 
-`back` 跟 `position: relative` 组合使用时，可以理解为让当前元素相对于元素原本所在的 2D 平面进行定位。
+When `back` is used with `position: relative`, it can be understood as positioning the current element relative to the 2D plane where the element originally existed.
 
 ## Syntax
 
-WebSpatial API 中的 CSS 属性在标准化完成前，需要加上 `-xr-` 前缀。
-在 WebSpatial SDK 当前的实现中，出于性能考虑，是用 CSS 自定义变量来实现新的 CSS API，因此 `back` 的属性名在 CSS 样式和 `style` 属性里都要写成 `--xr-back`。
+Before standardization is complete, CSS properties in the WebSpatial API need the `-xr-` prefix.
+In the current implementation of WebSpatial SDK, for performance reasons, new CSS APIs are implemented through CSS custom properties, so the property name for `back` must be written as `--xr-back` both in CSS styles and in the `style` attribute.
 
-示例：
+Examples:
 
 ```css
 p {
@@ -73,27 +73,26 @@ p {
 export default function Demo() {
   return (
     <div
-      style={
-        '--xr-back': '50px',
-        left: '0',
-      }>
-    </div>
-  )
+      style={{
+        "--xr-back": "50px",
+        left: "0",
+      }}></div>
+  );
 }
 ```
 
 ## Value Grammar
 
-在 WebSpatial SDK 当前的实现中，`back` 的值只支持用 px 作为单位，等价于空间中的「point」单位（在 visionOS 里，默认 1360px ≈ 1 米，参考[单位转换 API](../js-api/useMetrics.md)）。
+In the current implementation of WebSpatial SDK, `back` only supports `px` as the unit, which is equivalent to the point unit used by 2D GUI. See the [unit conversion API](../js-api/useMetrics.md).
 
-以下写法都是 px 单位：
+All of the following are `px` values:
 
 ```css
 --xr-back: 20px;
 --xr-back: 20;
 ```
 
-对于数值，最多允许精确到小数点后一位：
+For numeric values, precision is allowed up to one decimal place:
 
 ```css
 --xr-back: 1px;
@@ -102,7 +101,7 @@ export default function Demo() {
 
 ## Initial Value
 
-初始值相当于：
+The initial value is effectively:
 
 ```css
 --xr-back: 0;
@@ -110,34 +109,33 @@ export default function Demo() {
 
 ## Inherited
 
-子元素不会继承父元素的 `back` 属性。
+Child elements do not inherit the `back` property of their parent element.
 
-但是在跟 `position: relative` 或 `position: absolute` 组合使用时，父元素中的空间化 HTML 元素因为 `back` 属性发生了 Z 轴方向上的位移，子元素（包括空间化 HTML 元素）也会有相应的位移（因为子元素是相对于父元素定位的）。
+However, when used with `position: relative` or `position: absolute`, if a spatialized HTML element in the parent has been displaced along the Z axis because of `back`, child elements, including spatialized HTML elements, are displaced accordingly because they are positioned relative to the parent.
 
 ## Animatable
 
-在 WebSpatial SDK 当前的实现中，暂时不支持在 CSS 动画中使用 `back` 属性。
+In the current implementation of WebSpatial SDK, `back` is not yet supported inside CSS animations.
 
-> 空间化 HTML 元素整体目前都不支持 CSS 动画。
+> Spatialized HTML elements as a whole do not currently support CSS animations.
 
-`back` 支持 JS 动画的实现方式，可以对一个元素用 JS 反复修改 style 属性里 `--xr-back` 的值。
+`back` does support JS-based animation approaches, where JS repeatedly updates the `--xr-back` value in an element's `style`.
 
-JSX API 示例：
+JSX API example:
 
 ```js
 export default function Demo({ animatedOffsetZ, animatedOffsetX }) {
   return (
     <div
-      style={
-        '--xr-back': animatedOffsetZ,
-        left: animatedOffsetX
-      }>
-    </div>
-  )
+      style={{
+        "--xr-back": animatedOffsetZ,
+        left: animatedOffsetX,
+      }}></div>
+  );
 }
 ```
 
-DOM API 示例：
+DOM API example:
 
 ```js
 ref.current.style["--xr-back"] = animatedOffsetZ;
@@ -145,17 +143,17 @@ ref.current.style["--xr-back"] = animatedOffsetZ;
 
 ## Interaction with Other CSS APIs
 
-`back` 是布局属性，用 `back` 让元素「浮起」，相当于改变元素在 Z 轴上的布局位置。[CSS Transform](./transform.md) 是相对于这个布局位置进一步改变这个元素的显示效果（不影响实际布局位置）。
+`back` is a layout property. Using `back` to "lift" an element means changing its layout position on the Z axis. [CSS Transform](./transform.md) further changes the rendered appearance of the element relative to that layout position without affecting its actual layout position.
 
-`back` 能跟 `top`, `left`, `bottom`, `right` 组合使用，改变元素对应的 2D 面片在 3D 空间中 X、Y、Z 轴上的布局位置。
+`back` can be combined with `top`, `left`, `bottom`, and `right` to change the X, Y, and Z layout positions of the element's 2D plane in 3D space.
 
 ## DOM and JS Reflection
 
-用 `back` 让元素「浮起」后，可以用 DOM API 里新增的 [`offsetBack`](../dom-api/offsetBack.md) 属性读取这个元素相对于原本所在 2D 平面「浮起」的距离。
+After an element is "lifted" with `back`, the new DOM API property [`offsetBack`](../dom-api/offsetBack.md) can be used to read the distance that the element has been lifted relative to the 2D plane where it originally existed.
 
-在 2D HTML 元素上触发空间交互事件 [`SpatialTapEvent`](../event-api/spatial-tap.md) 和 [`SpatialDragStartEvent`](../event-api/spatial-drag.md) 获取到的相对于全局坐标系的交互位置信息（`clientZ`）也由 `back` 决定。
+The interaction position information relative to the global coordinate system (`clientZ`) returned by spatial interaction events [`SpatialTapEvent`](../event-api/spatial-tap.md) and [`SpatialDragStartEvent`](../event-api/spatial-drag.md) triggered on a 2D HTML element is also determined by `back`.
 
-还可以获得一个元素的 ref 后，直接读写 `style` 里 `back` 属性的值：
+After obtaining a ref for an element, you can also directly read and write the `back` value in `style`:
 
 ```js
 const currentOffsetZ = ref.current.style["--xr-back"];
@@ -163,4 +161,4 @@ const currentOffsetZ = ref.current.style["--xr-back"];
 
 ## Fallback Behavior
 
-在不支持 WebSpatial 的环境里，`back` 会被自动忽略。
+In environments that do not support WebSpatial, `back` is ignored automatically.

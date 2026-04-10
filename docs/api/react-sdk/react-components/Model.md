@@ -1,6 +1,10 @@
 # `<Model>`
 
-`<Model>` 组件是对 Web 标准中 Model Element 的增强，使用时需要加上 `enable-xr` 标记来启用这种增强：
+The `<Model>` component implements the [static 3D content container element](../../../concepts/3d-content-containers.md) in the WebSpatial API. This element is compatible with the API of the `<model>` element in Web standards, while also enhancing the standard capability so that the 2D plane corresponding to the element gains the capabilities of a [spatialized HTML element](../../../concepts/spatialized-html-elements.md), and the 3D model can render truly volumetric 3D content in the space in front of that 2D plane.
+
+> In Web standards, the model element can only render a 3D model inside the element's own "canvas". That canvas looks like an opening, and the 3D content appears "inside" or "behind" that opening. See the [WebKit documentation](https://webkit.org/blog/17118/a-step-into-the-spatial-web-the-html-model-element-in-apple-vision-pro/) and [demo](https://webkit.org/demos/model-demos/index.html).
+
+To enable this enhancement, add the [spatialized HTML element marker (`enable-xr`)](./jsx-marker.md#enable-xr) on `<Model>`:
 
 ```jsx
 import { Model } from "@webspatial/react-sdk";
@@ -16,48 +20,41 @@ function Example() {
 }
 ```
 
-**Shared 2D Element Features**
+## Fallback
 
-`<Model>` 作为 3D 内容容器元素，跟空间化 HTML 元素一样作为 2D 面片参与 HTML/CSS 布局，支持 X/Y 轴上原有的 CSS API 和新增的 Z 轴相关 API
+If the `enable-xr` marker is not added, or if the current runtime environment does not have [WebSpatial Runtime](../../../concepts/webspatial-app.md#webspatial-runtime), the `<Model>` component automatically falls back to the `<model>` element from Web standards and is rendered by the browser engine. The browser engine on the current platform may not support this new standard yet. You can use `typeof HTMLModelElement !== "undefined"` for feature detection.
 
-**Enhanced Model Element**
-
-原本 Model Element 中的 3D 模型只能在这个元素的「画布」区域的「内部」和「后方」显示，像是在一个洞口中。
-
-> 可参考 WebKit 的文档：https://webkit.org/blog/17118/a-step-into-the-spatial-web-the-html-model-element-in-apple-vision-pro/
-> 测试 demo：https://webkit.org/demos/model-demos/index.html
-
-`<Model>` 上的 `enable-xr` 标记让它在 web 标准的 model element 基础上，具备增强的空间化效果，3D 模型会在元素对应的 2D 面片前方空间中渲染，而不是在以 2D 面片为视区的「洞口」内部渲染
-
-WebSpatial SDK 当前版本中，`<Model>` 支持以下 model element 的 API：
+In the current version of WebSpatial SDK, `<Model>` supports the following model element APIs:
 
 ## Attributes
 
 `src`
 
-要嵌入的 3D 模型的 URL。
+The URL of the 3D model to embed.
 
-## Events
+## Lifecycle Events
 
 `onLoad`
 
-当 3D 模型成功加载，并且已可用于显示时触发。
+Triggered when the 3D model has loaded successfully and is ready to display.
 
 `onError`
 
-当模型加载失败时触发。
+Triggered when the model fails to load.
 
 ## JavaScript API
 
 `currentSrc`
 
-只读字符串，返回当前已加载资源的 URL。
+A read-only string that returns the URL of the currently loaded resource.
 
 `ready`
 
-当模型的源文件已完成加载和处理时，这个 Promise 会 resolve。
-如果源文件无法被获取，或者文件无法被解析为有效的 3D 模型资源，这个 Promise 会 reject。
+This Promise resolves when the model source file has finished loading and processing.
+If the source file cannot be fetched, or the file cannot be parsed as a valid 3D model resource, this Promise rejects.
 
 `entityTransform`
 
-一个可读可写的 DOMMatrixReadOnly，可以表示 [3D 模型和 3D 内容容器内部空间之间的关系](https://github.com/immersive-web/model-element/blob/main/explainer.md#visual-presentation-control)。
+A readable and writable `DOMMatrixReadOnly` representing the [relationship between the 3D model and the internal space of the 3D content container](https://github.com/immersive-web/model-element/blob/main/explainer.md#visual-presentation-control).
+
+By default, the 3D model fills as much of `<Model>`'s width or height as possible while preserving its original proportions, so you can control the size of the 3D model by controlling the size of the 2D plane corresponding to `<Model>`.

@@ -1,8 +1,6 @@
-# `worldScaling`
+# `baseplateVisibility`
 
-One of the [initialization properties](../../../concepts/spatial-scenes.md#scene-initialization) of a [Spatial Scene](../../../concepts/spatial-scenes.md), `worldScaling` affects how a Spatial Scene behaves when the user drags it horizontally after creation.
-
-Only Spatial Scenes of type `volume` support `worldScaling`.
+One of the [initialization properties](../../../concepts/spatial-scenes.md#scene-initialization) of a [Spatial Scene](../../../concepts/spatial-scenes.md). Only Spatial Scenes of type `volume` support `baseplateVisibility`, and it affects the visibility of the baseplate under the Volume.
 
 ## Declared In
 
@@ -12,7 +10,7 @@ For the [Start Scene](../../../concepts/spatial-scenes.md#start-scene), initiali
 
 ## Type
 
-`"automatic" | "dynamic"`
+`"automatic" | "hidden"`
 
 Example of setting a new scene through `initScene`:
 
@@ -23,7 +21,7 @@ initScene("newSceneName", defaultConfig => {
   return {
     ...defaultConfig,
     type: "volume",
-    worldScaling: "dynamic",
+    baseplateVisibility: "hidden",
   };
 });
 window.open(newSceneUrl, "newSceneName");
@@ -31,7 +29,7 @@ window.open(newSceneUrl, "newSceneName");
 
 Example of setting the initial scene through the Web App Manifest:
 
-> Note: In a Web App Manifest, it is recommended to convert property names from camelCase, such as `worldScaling`, to lowercase snake_case, such as `world_scaling`.
+> Note: In a Web App Manifest, it is recommended to convert property names from camelCase, such as `baseplateVisibility`, to lowercase snake_case, such as `baseplate_visibility`.
 
 ```json
 {
@@ -39,7 +37,7 @@ Example of setting the initial scene through the Web App Manifest:
   "start_url": "/",
   "xr_main_scene": {
     "type": "volume",
-    "world_scaling": "dynamic"
+    "baseplate_visibility": "hidden"
   }
 }
 ```
@@ -50,5 +48,5 @@ Example of setting the initial scene through the Web App Manifest:
 
 ## Accepted Values
 
-- `"automatic"`: shows a larger-near smaller-far effect during movement, like a real-world object
-- `"dynamic"`: keeps a constant size relative to the user's field of view during movement, just like the default behavior of a `window` Spatial Scene
+- `"automatic"`: the baseplate is shown when needed
+- `"hidden"`: the baseplate is always hidden

@@ -1,6 +1,6 @@
 # How to enable WebSpatial in SSR-enabled projects
 
-开启了 SSR 的 React 项目，在[集成 WebSpatial SDK 的时候](../introduction/getting-started.md#set-up-your-project)，有一个额外步骤，需要添加 SDK 里的 `SSRProvider`：
+In a React project with SSR enabled, there is one extra step when [integrating WebSpatial SDK](../introduction/getting-started.md#set-up-your-project): add the `SSRProvider` from the SDK:
 
 ```js
 import { hydrateRoot } from "react-dom/client";
@@ -14,7 +14,7 @@ hydrateRoot(
 );
 ```
 
-以 Shopify 的电商网站框架 [Hydrogen](https://hydrogen.shopify.dev/)（基于 Remix 和 React Router，默认开启 SSR）为例：
+Using Shopify's e-commerce framework [Hydrogen](https://hydrogen.shopify.dev/) as an example, which is based on Remix and React Router and enables SSR by default:
 
 ```js
 import { HydratedRouter } from "react-router/dom";

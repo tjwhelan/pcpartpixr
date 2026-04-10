@@ -2,11 +2,11 @@
 
 ## Summary
 
-在不同坐标系之间转换，包括：
+Converts coordinates between [different coordinate systems](../../../concepts/3d-content-containers.md#2d-containing-3d), including:
 
-- 空间化 HTML 元素：本地坐标系，基于 2D 布局系统，默认单位是 px。
-- 空间场景容器（窗口）：全局坐标系，基于 2D 布局系统，默认单位是 px
-- 3D entity：本地坐标系，基于 3D 引擎系统，默认单位是米
+- The global coordinate system of a [Spatial Scene container](../../../concepts/spatial-scenes.md): based on the 2D layout system, using a left-handed coordinate system, with the origin at the top-left corner of the backplate, Y pointing downward, Z pointing toward the user, and lengths expressed by default in the GUI-oriented point unit (`px`)
+- The local coordinate system of a [spatialized HTML element](../../../concepts/spatialized-html-elements.md): based on the 2D layout system, using a left-handed coordinate system, with the origin at the top-left corner of the 2D plane, Y pointing downward, Z pointing toward the user, and lengths expressed by default in the GUI-oriented point unit (`px`)
+- The local coordinate system of a [3D entity](../react-components/Reality.md#3d-entity): based on the 3D engine system, using a right-handed coordinate system, with the origin at the center point of the local 3D space corresponding to the 3D content container, Y pointing upward, Z pointing toward the user, and lengths expressed by default in the physical world unit (`m`) oriented toward real-world objects
 
 ## Signature
 
@@ -35,13 +35,13 @@ const w2e = await convertCoordinate(position, {
 type CoordinateLike = { x: number; y: number; z: number };
 ```
 
-要转换的位置点。
-这个位置必须使用 `options.from` 所指定坐标系中的坐标值和默认单位来表达。
+The position point to convert.
+This position must use the coordinate values and default unit of the coordinate system specified by `options.from`.
 
 ### options
 
-- `options.from`：源坐标系。
-- `options.to`：目标坐标系
+- `options.from`: source coordinate system
+- `options.to`: target coordinate system
 
 ## Return Shape
 
@@ -49,4 +49,4 @@ type CoordinateLike = { x: number; y: number; z: number };
 Promise<CoordinateLike>;
 ```
 
-返回一个 Promise，resolve 后得到转换后的坐标点。
+Returns a Promise that resolves to the converted coordinate point.

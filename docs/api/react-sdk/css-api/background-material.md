@@ -2,37 +2,38 @@
 
 ## Summary
 
-`background-material` 是 WebSpatial 在现有 Web 标准基础上新增的 CSS 属性，让悬浮在空间中的网页窗口和空间化 HTML 元素都能完全透明或能使用实时渲染的半透明材质作为背景，而不仅限于固定的不透明颜色。
+`background-material` is a new CSS property added by WebSpatial on top of existing Web standards. It allows both [webpage windows floating in space](../../../concepts/spatial-scenes.md) and [spatialized HTML elements](../../../concepts/spatialized-html-elements.md) to be fully transparent or to use a real-time rendered translucent material as their background, instead of being limited to fixed opaque colors.
 
 ## Applies To
 
-WebSpatial SDK 暂时只支持在 html 元素（代表网页窗口本身）和被[标记为空间化 HTML 元素](../react-components/jsx-marker.md)的 2D HTML 元素（不含 3D 容器元素）上使用 `background-material`。
+The current WebSpatial SDK only supports `background-material` on the HTML element that represents the webpage window itself, and on 2D HTML elements [marked as spatialized HTML elements](../react-components/jsx-marker.md), excluding [3D container elements](../../../concepts/3d-content-containers.md).
 
 ## Mental Model
 
-`background-material` 的值不是 `none` 和 `transparent`（比如 `translucent`）的情况下：
+When the value of `background-material` is `none`:
 
-对于网页窗口，相当于把原本不透明的固定颜色背板，替换成了半透明材质的背板，随视角和环境实时动态渲染。
+The webpage window keeps its default opaque fixed-color backplate.
 
-在 `background-material` 的值是 `none` 的情况下：
+Spatialized HTML elements keep their default state with no backplate.
 
-网页窗口保持默认的不透明的固定颜色背板。
-空间化 HTML 元素保持默认的无背板状态。
+When the value of `background-material` is `transparent`:
 
-对于空间化 HTML 元素，相当于额外加上了这个半透明材质的背板。
+For the webpage window, this removes the original opaque fixed-color backplate and makes it fully transparent with no border, so the elements inside the webpage appear to float separately in space.
 
-在 `background-material` 的值是 `transparent` 的情况下：
+For spatialized HTML elements, this is equivalent to keeping the default no-backplate state.
 
-对于网页窗口，相当于把原本不透明的固定颜色背板去掉，变成完全透明、无边框，让网页中各个元素看上去分散漂浮在空间中。
+When the value of `background-material` is a translucent material such as `translucent`:
 
-对于空间化 HTML 元素，相当于保持默认的无背板状态。
+For the webpage window, this replaces the original opaque fixed-color backplate with a translucent material backplate rendered dynamically in real time according to the viewpoint and environment.
+
+For spatialized HTML elements, this adds such a translucent material backplate.
 
 ## Syntax
 
-WebSpatial API 中的 CSS 属性在标准化完成前，需要加上 `-xr-` 前缀。
-在 WebSpatial SDK 当前的实现中，出于性能考虑，是用 CSS 自定义变量来实现新的 CSS API，因此 `background-material` 的属性名在 CSS 样式和 `style` 属性里都要写成 `--xr-background-material`。
+Before standardization is complete, CSS properties in the WebSpatial API need the `-xr-` prefix.
+In the current implementation of WebSpatial SDK, for performance reasons, new CSS APIs are implemented through CSS custom properties, so the property name for `background-material` must be written as `--xr-background-material` both in CSS styles and in the `style` attribute.
 
-示例：用于网页窗口
+Example for the webpage window:
 
 ```css
 html {
@@ -40,7 +41,7 @@ html {
 }
 ```
 
-示例：用于空间化 HTML 元素
+Example for a spatialized HTML element:
 
 ```css
 div {
@@ -52,7 +53,7 @@ div {
 
 ## Value Grammar
 
-`background-material` 的值是枚举值：
+`background-material` takes an enum value:
 
 - `translucent`
 - `transparent`
@@ -60,7 +61,7 @@ div {
 
 ## Initial Value
 
-初始值相当于：
+The initial value is effectively:
 
 ```css
 --xr-background-material: none;
@@ -68,20 +69,8 @@ div {
 
 ## Inherited
 
-子元素不会继承父元素的 `background-material` 属性。
-
-## Animatable
-
-TODO：待补充
-
-## Interaction with Other CSS APIs
-
-TODO：待补充
-
-## DOM and JS Reflection
-
-TODO：待补充
+Child elements do not inherit the `background-material` property of their parent element.
 
 ## Fallback Behavior
 
-在不支持 WebSpatial 的环境里，`background-material` 会被自动忽略。
+In environments that do not support WebSpatial, `background-material` is ignored automatically.

@@ -2,7 +2,7 @@
 
 ## Summary
 
-在创建新的空间场景容器之前，对容器的初始化做自定义设置。
+Applies custom configuration to the [initialization properties](../../../concepts/spatial-scenes.md#scene-initialization) of a Spatial Scene [before a new Spatial Scene is created](../../../concepts/spatial-scenes.md#new-scenes).
 
 ## Signature
 
@@ -27,20 +27,18 @@ window.open(newSceneUrl, "newSceneName");
 
 ### sceneName
 
-要初始化的 Spatial Scene 的名称（等价于新窗口的 name）。
+The name of the Spatial Scene to initialize, equivalent to the `name` of the new window opened by the link.
 
-如果这个 name 对应的窗口已打开，
+If `initScene` is called while the Spatial Scene for that `name` is already open, it only affects the initialization properties the next time a new Spatial Scene is created with the same `name` after the current one is closed.
+
+If `initScene` is called multiple times for the same `name`, the custom initialization properties for that `name` are updated repeatedly.
 
 ### configure
 
-一个回调函数，提供这个 Spatial Scene 当前最新的自定义 scene 配置，并返回要更新的最终配置。
+A callback function. Its parameter, `defaultConfig`, is the latest state of the custom initialization properties for that `name`, and the callback returns the new custom initialization properties.
+
+If this is the first time `initScene` is called for that `name`, the parameter `defaultConfig` contains the default initialization properties.
 
 ## Return Shape
 
-不返回任何值。
-
-## Side Effects
-
-如果这个空间场景容器（窗口）已打开，这次设置不会带来任何结果，但会影响空间场景容器关闭后再次打开的初始化设置。
-
-下次对相同空间场景容器调用 `initScene`，`defaultConfig` 就是这一次设置的结果。
+No return value.
