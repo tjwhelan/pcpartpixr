@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:webspatial": "npx webspatial-builder run --base=http://localhost:5174/",
+    "dev:webspatial": "npx webspatial-builder run --base=http://localhost:5173/",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
