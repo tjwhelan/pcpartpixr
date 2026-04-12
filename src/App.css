@@ -434,11 +434,13 @@
 
 .create-pc-model-btn {
   flex-shrink: 0;
+  position: relative;
   width: 100%;
   margin-top: 4px;
   padding: 10px 14px;
   border-radius: 10px;
   border: 1px solid rgba(15, 28, 45, 0.2);
+  --xr-back: 8px;
   font-family: var(--sans);
   font-size: 13px;
   font-weight: 600;
@@ -482,15 +484,15 @@
   flex-direction: column;
   gap: 8px;
   padding: 10px 12px;
-  border: 1px solid rgba(15, 28, 45, 0.15);
-  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(15, 28, 45, 0.12);
+  background: rgba(255, 255, 255, 0.55);
   border-radius: 10px;
   transition: all 0.2s;
   --xr-back: 8px;
 }
 
 .build-item:hover {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .item-header {
@@ -561,9 +563,9 @@
 .build-summary {
   /* Subtotal strip at bottom of build list when items exist. */
   padding: 10px 12px;
-  border: 1px solid rgba(15, 28, 45, 0.15);
+  border: 1px solid rgba(15, 28, 45, 0.12);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.55);
   --xr-back: 8px;
 }
 
@@ -768,9 +770,9 @@
 
 .category-tab {
   padding: 6px 10px;
-  border: 1px solid rgba(15, 28, 45, 0.2);
+  border: 1px solid rgba(15, 28, 45, 0.15);
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.45);
   color: var(--text-soft);
   font-family: var(--sans);
   font-size: 11px;
@@ -781,7 +783,7 @@
 }
 
 .category-tab:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.6);
   border-color: rgba(15, 28, 45, 0.3);
 }
 
@@ -807,8 +809,8 @@
   flex-direction: column;
   gap: 8px;
   padding: 10px;
-  border: 1px solid rgba(15, 28, 45, 0.15);
-  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(15, 28, 45, 0.12);
+  background: rgba(255, 255, 255, 0.55);
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
@@ -818,7 +820,7 @@
 }
 
 .component-card:hover {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.72);
   border-color: rgba(15, 28, 45, 0.3);
   transform: translateY(-1px);
 }
