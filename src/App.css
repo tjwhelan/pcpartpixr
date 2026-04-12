@@ -11,22 +11,14 @@
   flex-direction: column;
 }
 
-/* 3D Background Canvas */
-.pc-3d-background {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
 /* Floating UI Container */
 .floating-ui-wrapper {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  flex: 1;
+  min-height: 0;
   pointer-events: none;
   padding: var(--scene-padding, 26px);
-  z-index: 10;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(260px, 300px) minmax(280px, 360px) minmax(280px, 320px);
   grid-template-rows: 1fr;
@@ -205,6 +197,25 @@
 .details-panel {
   min-width: 280px;
   max-width: 360px;
+}
+
+.details-model-viewport {
+  width: 100%;
+  height: 240px;
+  min-height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(165deg, #0c1016 0%, #161d28 55%, #1a2432 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.details-model-viewport canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .component-info {

@@ -10,6 +10,7 @@ export default defineConfig({
       "localhost",
       "127.0.0.1",
       "prospective-coupon-honors-nicholas.trycloudflare.com",
+      "trends-solomon-perhaps-delivering.trycloudflare.com"
     ],
     proxy: {
       '/api': {

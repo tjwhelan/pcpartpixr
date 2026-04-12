@@ -24,6 +24,7 @@
     "@types/node": "^24.12.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "0.182.0",
     "@vitejs/plugin-react": "^6.0.1",
     "@webspatial/builder": "^1.4.0",
     "@webspatial/platform-visionos": "^1.4.0",

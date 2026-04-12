@@ -63,17 +63,13 @@ export function PCBuilder() {
 
   const componentCount = Object.values(pc).filter((c) => c).length;
 
-  // Create a mini PC object with just the selected component for 3D viewing
-  const selectedForPreview: PC = selectedComponent ? { [selectedCategory]: selectedComponent } : {};
+  const previewPcKey = categoryMap[selectedCategory];
+  const selectedForPreview: PC = selectedComponent
+    ? { [previewPcKey]: selectedComponent }
+    : {};
 
   return (
     <main className="pc-builder" enable-xr-monitor>
-      {/* Full-screen 3D background */}
-      <div className="pc-3d-background">
-        <ModelViewer pc={selectedForPreview} />
-      </div>
-
-      {/* Floating UI Panels */}
       <div className="floating-ui-wrapper">
         {/* Left: Build List */}
         <section className="floating-panel build-list-panel" enable-xr>
@@ -89,6 +85,9 @@ export function PCBuilder() {
         <section className="floating-panel details-panel" enable-xr>
           {selectedComponent ? (
             <>
+              <div className="details-model-viewport" aria-label="3D preview">
+                <ModelViewer pc={selectedForPreview} embedded />
+              </div>
               <ComponentInfo component={selectedComponent} />
               <button
                 className="add-to-build-btn"
