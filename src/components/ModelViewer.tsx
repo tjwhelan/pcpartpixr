@@ -95,7 +95,7 @@ export function ModelViewer({ pc, embedded = false }: ModelViewerProps) {
       </Suspense>
       <OrbitControls
         autoRotate
-        autoRotateSpeed={1.6}
+        autoRotateSpeed={0.55}
         zoomSpeed={0.65}
         panSpeed={0.45}
         enablePan={false}

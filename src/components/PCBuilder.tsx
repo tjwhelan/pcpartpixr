@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { PC, PCComponent, ComponentCategory } from '../types/pc';
 import componentsData from '../data/pcComponents.json';
 import { ComponentSelector } from './ComponentSelector';
-import { ModelViewer } from './ModelViewer';
+import { ComponentModelPreview } from './ComponentModelPreview';
 import { ComponentInfo } from './ComponentInfo';
 import { BuildList } from './BuildList';
 
@@ -86,7 +86,7 @@ export function PCBuilder() {
           {selectedComponent ? (
             <>
               <div className="details-model-viewport" aria-label="3D preview">
-                <ModelViewer pc={selectedForPreview} embedded />
+                <ComponentModelPreview pc={selectedForPreview} embedded />
               </div>
               <ComponentInfo component={selectedComponent} />
               <button
