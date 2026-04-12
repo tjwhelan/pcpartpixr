@@ -82,7 +82,7 @@ export function PCBuilder() {
 
   return (
     <main
-      className={`pc-builder spatial-scene-root${fullPcModelPlaced ? ' pc-builder--full-pc-spawned' : ''}`}
+      className="pc-builder spatial-scene-root"
       enable-xr-monitor
     >
       {fullPcModelPlaced ? <SpawnedFullPcModel /> : null}

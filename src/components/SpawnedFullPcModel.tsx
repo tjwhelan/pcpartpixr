@@ -128,8 +128,10 @@ export function SpawnedFullPcModel() {
             height: '100%',
             display: 'block',
             touchAction: 'none',
+            background: 'transparent',
           }}
           gl={{ alpha: true, antialias: true }}
+          scene={{ background: null }}
         >
           <Suspense fallback={null}>
             <ambientLight intensity={0.55} />
