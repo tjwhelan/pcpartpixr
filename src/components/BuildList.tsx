@@ -7,6 +7,11 @@ interface BuildListProps {
   componentCount: number;
   /** When false, omit the title block (shown in SpatialPanel header instead). */
   showHeader?: boolean;
+  /** True when all 8 slots are filled — enables “Create PC model”. */
+  canCreatePcModel?: boolean;
+  /** After the user spawns the full PC GLB; button shows a completed state. */
+  fullPcModelPlaced?: boolean;
+  onCreatePcModel?: () => void;
 }
 
 const categoryLabels: Record<PCKey, string> = {
@@ -26,6 +31,9 @@ export function BuildList({
   totalPrice,
   componentCount,
   showHeader = true,
+  canCreatePcModel = false,
+  fullPcModelPlaced = false,
+  onCreatePcModel,
 }: BuildListProps) {
   const buildItems = Object.entries(pc).filter(([, component]) => component);
 
@@ -78,6 +86,15 @@ export function BuildList({
           </div>
         </div>
       )}
+
+      <button
+        type="button"
+        className={`create-pc-model-btn${fullPcModelPlaced ? ' create-pc-model-btn--placed' : ''}`}
+        disabled={!canCreatePcModel || fullPcModelPlaced}
+        onClick={onCreatePcModel}
+      >
+        {fullPcModelPlaced ? 'PC model in scene' : 'Create PC model'}
+      </button>
     </div>
   );
 }

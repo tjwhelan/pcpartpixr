@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { PC, PCComponent, ComponentCategory } from '../types/pc';
 import componentsData from '../data/pcComponents.json';
 import { ComponentSelector } from './ComponentSelector';
@@ -6,6 +6,7 @@ import { ComponentModelPreview } from './ComponentModelPreview';
 import { ComponentInfo } from './ComponentInfo';
 import { BuildList } from './BuildList';
 import { SpatialPanel } from './SpatialPanel';
+import { SpawnedFullPcModel } from './SpawnedFullPcModel';
 
 type CategoryKey = keyof ComponentCategory;
 type PCKey = keyof PC;
@@ -25,6 +26,7 @@ export function PCBuilder() {
   const [pc, setPC] = useState<PC>({});
   const [selectedComponent, setSelectedComponent] = useState<PCComponent | undefined>();
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey>('cpus');
+  const [fullPcModelPlaced, setFullPcModelPlaced] = useState(false);
 
   const categories: Array<{
     id: CategoryKey;
@@ -63,6 +65,11 @@ export function PCBuilder() {
     }, 0) || 0;
 
   const componentCount = Object.values(pc).filter((c) => c).length;
+  const canCreatePcModel = componentCount === 8;
+
+  useEffect(() => {
+    if (componentCount < 8) setFullPcModelPlaced(false);
+  }, [componentCount]);
 
   const previewPcKey = categoryMap[selectedCategory];
   const selectedForPreview: PC = selectedComponent
@@ -74,7 +81,12 @@ export function PCBuilder() {
     : 'translate(-50%, -50%)';
 
   return (
-    <main className="pc-builder spatial-scene-root" enable-xr-monitor>
+    <main
+      className={`pc-builder spatial-scene-root${fullPcModelPlaced ? ' pc-builder--full-pc-spawned' : ''}`}
+      enable-xr-monitor
+    >
+      {fullPcModelPlaced ? <SpawnedFullPcModel /> : null}
+
       <SpatialPanel
         className="spatial-tile-build floating-panel build-list-panel"
         layoutTransform="translateY(-50%)"
@@ -91,6 +103,9 @@ export function PCBuilder() {
           totalPrice={totalPrice}
           componentCount={componentCount}
           showHeader={false}
+          canCreatePcModel={canCreatePcModel}
+          fullPcModelPlaced={fullPcModelPlaced}
+          onCreatePcModel={() => setFullPcModelPlaced(true)}
         />
       </SpatialPanel>
 
