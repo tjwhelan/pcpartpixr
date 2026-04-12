@@ -15,6 +15,12 @@ interface ComponentModelPreviewProps {
   /** When set, shows the same empty / no-model states as ModelViewer. */
   pc: PC;
   embedded?: boolean;
+  /**
+   * When true, the preview is a fixed-position tile in the spatial scene: native runtimes
+   * use `<Model enable-xr>` as the 3D content container; otherwise a glass `section`
+   * with the R3F viewport inside.
+   */
+  asSpatialVolume?: boolean;
 }
 
 /**
@@ -29,7 +35,7 @@ interface ComponentModelPreviewProps {
  * @see docs/api/react-sdk/react-components/Model.md
  * @see docs/api/react-sdk/css-api/transform.md
  */
-export function ComponentModelPreview({ pc, embedded }: ComponentModelPreviewProps) {
+export function ComponentModelPreview({ pc, embedded, asSpatialVolume }: ComponentModelPreviewProps) {
   const [drag, setDrag] = useState<DragT>(zero);
   const [idleDeg, setIdleDeg] = useState(0);
   const [isGrabbed, setIsGrabbed] = useState(false);
@@ -86,38 +92,77 @@ export function ComponentModelPreview({ pc, embedded }: ComponentModelPreviewPro
     componentCount > 0 &&
     Object.values(pc).some((c) => c && c.modelUrl && c.modelUrl.length > 0);
 
-  if (componentCount === 0) {
+  const dragSpinStyle: CSSProperties = {
+    width: '100%',
+    height: '100%',
+    minHeight: '220px',
+    display: 'block',
+    cursor: 'pointer',
+    transform: `translate3d(${drag.x}px, ${drag.y}px, ${drag.z}px) rotateY(${idleDeg}deg)`,
+    transformOrigin: 'center center',
+  };
+
+  if (!asSpatialVolume) {
+    if (componentCount === 0) {
+      return <ModelViewer pc={pc} embedded={embedded} />;
+    }
+
+    if (!hasRenderableModel) {
+      return <ModelViewer pc={pc} embedded={embedded} />;
+    }
+
+    if (!useNative || !modelUrl) {
+      return <ModelViewer pc={pc} embedded={embedded} />;
+    }
+
     return (
-      <ModelViewer pc={pc} embedded={embedded} />
+      <Model
+        enable-xr
+        src={modelUrl}
+        className="spatial-component-model"
+        onSpatialDragStart={onSpatialDragStart}
+        onSpatialDrag={onSpatialDrag}
+        onSpatialDragEnd={onSpatialDragEnd}
+        style={{
+          ...dragSpinStyle,
+          ...({ '--xr-depth': '140px' } as CSSProperties),
+        }}
+      />
     );
   }
 
-  if (!hasRenderableModel) {
-    return <ModelViewer pc={pc} embedded={embedded} />;
-  }
-
-  if (!useNative || !modelUrl) {
-    return <ModelViewer pc={pc} embedded={embedded} />;
+  /* Spatial scene: volumetric <Model> or glass tile + R3F fallback — each is its own layout box. */
+  if (componentCount === 0 || !hasRenderableModel || !useNative || !modelUrl) {
+    return (
+      <section
+        className="spatial-tile-model-host spatial-tile-model-fallback floating-panel"
+        enable-xr
+        aria-label="3D preview"
+      >
+        <div className="details-model-viewport details-model-viewport--spatial">
+          <ModelViewer pc={pc} embedded={embedded} />
+        </div>
+      </section>
+    );
   }
 
   return (
-    <Model
-      enable-xr
-      src={modelUrl}
-      className="spatial-component-model"
-      onSpatialDragStart={onSpatialDragStart}
-      onSpatialDrag={onSpatialDrag}
-      onSpatialDragEnd={onSpatialDragEnd}
-      style={{
-        width: '100%',
-        height: '100%',
-        minHeight: '220px',
-        display: 'block',
-        cursor: 'pointer',
-        transform: `translate3d(${drag.x}px, ${drag.y}px, ${drag.z}px) rotateY(${idleDeg}deg)`,
-        transformOrigin: 'center center',
-        ...({ '--xr-depth': '140px' } as CSSProperties),
-      }}
-    />
+    <div className="spatial-tile-model-host" aria-label="3D preview">
+      <Model
+        enable-xr
+        src={modelUrl}
+        className="spatial-component-model spatial-tile-model-native"
+        onSpatialDragStart={onSpatialDragStart}
+        onSpatialDrag={onSpatialDrag}
+        onSpatialDragEnd={onSpatialDragEnd}
+        style={{
+          ...dragSpinStyle,
+          ...({
+            '--xr-back': '156px',
+            '--xr-depth': '180px',
+          } as CSSProperties),
+        }}
+      />
+    </div>
   );
 }

@@ -32,7 +32,7 @@
   "gpus": [
     {
       "id": "gpu-1",
-      "name": "NVIDIA RTX 4090",
+      "name": "Asus ROG STRIX NVIDIA RTX 4090",
       "brand": "NVIDIA",
       "specs": {
         "memory": "24GB GDDR6X",
@@ -94,13 +94,13 @@
   "ram": [
     {
       "id": "ram-1",
-      "name": "Corsair Dominator Elite RGB 48GB",
+      "name": "Kingston HyperX Fury 16GB DDR4",
       "brand": "Corsair",
       "specs": {
-        "capacity": "48GB (2x24GB)",
-        "speed": "6000MHz",
-        "latency": "CAS 30",
-        "type": "DDR5"
+        "capacity": "16GB (2x8GB)",
+        "speed": "3200MHz",
+        "latency": "10 ns",
+        "type": "DDR4"
       },
       "price": 399,
       "modelUrl": "/models/ram-placeholder.glb"

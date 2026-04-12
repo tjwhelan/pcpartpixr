@@ -2,14 +2,13 @@
  * App.css — PC Parts Picker (WebSpatial) layout and chrome
  *
  * Maps to React tree in PCBuilder.tsx:
- *   main.pc-builder
- *     └─ .floating-ui-wrapper          → three-column shell (build | details | parts)
- *          ├─ section.build-list-panel  → “Your Build” (left)
- *          ├─ section.details-panel     → selected part + 3D + specs (center)
- *          └─ section.parts-list-panel  → category tabs + component cards (right)
+ *   main.pc-builder.spatial-scene-root
+ *     ├─ section.spatial-tile-build     → “Your Build” (fixed left)
+ *     ├─ ComponentModelPreview (asSpatialVolume) OR section.spatial-tile-details-hint
+ *     ├─ section.spatial-tile-details-meta (specs + CTA) when a part is selected
+ *     └─ section.spatial-tile-parts      → catalog (fixed right)
  *
- * WebSpatial: panels use enable-xr; --xr-back / --xr-background-material affect depth
- * and materials in spatial runtimes (see local docs/api for CSS APIs).
+ * WebSpatial: each tile uses enable-xr; --xr-back separates planes in one spatial scene.
  */
 
 /* -------------------------------------------------------------------------- */
@@ -33,28 +32,123 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Three-column grid — holds the floating glass panels                        */
+/* One spatial scene: pass-through root; each tile is fixed-position          */
 /* -------------------------------------------------------------------------- */
 
-.floating-ui-wrapper {
-  position: relative;
-  /* Occupies remaining vertical space under any future top chrome. */
+.spatial-scene-root {
   flex: 1;
-  /* Allows this flex child to shrink so inner scroll areas can compute height. */
   min-height: 0;
-  /* Clicks pass through to the scene; re-enabled on .floating-panel below. */
+  position: relative;
   pointer-events: none;
-  /* Breathing room from viewport edges; --scene-padding from index.css (responsive). */
+}
+
+/* Secondary window: single stacked panel (DetailsWindowPage). */
+.details-window-shell {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   padding: var(--scene-padding, 26px);
-  z-index: 1;
-  /* Build (fixed-ish width) | Details (flexible) | Parts (fixed-ish width). */
-  display: grid;
-  grid-template-columns: minmax(260px, 300px) minmax(280px, 360px) minmax(280px, 320px);
-  /* Single row stretches to available height so columns align top-to-bottom. */
-  grid-template-rows: 1fr;
-  gap: clamp(12px, 1.5vw, 24px);
-  /* Grid tracks hug the start edge (left in LTR). */
-  justify-content: start;
+  pointer-events: none;
+  overflow-y: auto;
+}
+
+.details-window-shell .floating-panel {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Fixed anchors for independent spatialized sections (see spatialized-html-elements.md). */
+.spatial-tile-build.floating-panel {
+  position: fixed;
+  left: max(20px, env(safe-area-inset-left, 0px));
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(240px, 28vw, 300px);
+  max-width: 300px;
+  max-height: min(85vh, 720px);
+  overflow-y: auto;
+  pointer-events: auto;
+  --xr-back: 72px;
+}
+
+.spatial-tile-parts.floating-panel {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right, 0px));
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(260px, 32vw, 320px);
+  max-width: 320px;
+  max-height: min(85vh, 720px);
+  overflow-y: auto;
+  pointer-events: auto;
+  --xr-back: 104px;
+}
+
+.spatial-tile-details-meta.floating-panel {
+  position: fixed;
+  left: 50%;
+  top: calc(36% + min(168px, 22vh));
+  transform: translateX(-50%);
+  width: min(360px, 90vw);
+  max-height: min(42vh, 420px);
+  overflow-y: auto;
+  pointer-events: auto;
+  --xr-back: 88px;
+}
+
+.spatial-tile-details-hint.floating-panel {
+  position: fixed;
+  left: 50%;
+  top: 36%;
+  transform: translate(-50%, -50%);
+  width: min(320px, 88vw);
+  max-height: min(50vh, 360px);
+  overflow-y: auto;
+  pointer-events: auto;
+  --xr-back: 120px;
+}
+
+/* 3D volume tile: host box + optional glass fallback (section + ModelViewer). */
+.spatial-tile-model-host {
+  position: fixed;
+  left: 50%;
+  top: 36%;
+  transform: translate(-50%, -50%);
+  width: min(360px, 44vw);
+  height: min(300px, 40vh);
+  min-height: 200px;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+.spatial-tile-model-fallback.floating-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  max-height: min(340px, 45vh);
+  height: min(300px, 40vh);
+  min-height: 200px;
+  overflow: hidden;
+  --xr-back: 156px;
+}
+
+.details-model-viewport--spatial {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+/* Volumetric <Model> as the details “panel” (3D content container). */
+.spatial-tile-model-native {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  background: linear-gradient(165deg, #0c1016 0%, #161d28 55%, #1a2432 100%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -264,7 +358,7 @@
   border-radius: 12px;
   overflow: hidden;
   /* Dark stage so the model reads against glass UI. */
-  background: linear-gradient(165deg, #0c1016 0%, #161d28 55%, #1a2432 100%);
+  background: linear-gradient(165deg, #0c1016 0%, #161d28 55%, #1a2432 0%); 
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   flex-shrink: 0;
@@ -283,6 +377,12 @@
   width: 100%;
   height: 100%;
   min-height: 220px;
+}
+
+.spatial-tile-model-host .spatial-component-model {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
 }
 
 .component-info {
@@ -532,50 +632,51 @@
 /* Breakpoints — tighten grid / stack on small viewports                      */
 /* -------------------------------------------------------------------------- */
 
-@media (max-width: 1400px) {
-  .floating-ui-wrapper {
-    /* Slightly tighter fixed side columns; middle column grows with 1fr. */
-    grid-template-columns: 260px 1fr 280px;
-    gap: 12px;
-  }
-
-  .details-panel {
-    max-width: 300px;
-  }
-}
-
 @media (max-width: 1200px) {
-  .floating-ui-wrapper {
-    grid-template-columns: 240px 1fr 240px;
-    gap: 12px;
+  .spatial-tile-build.floating-panel {
+    width: clamp(220px, 30vw, 280px);
   }
 
-  .parts-list-panel {
-    min-width: 220px;
-  }
-
-  .build-list-panel {
-    min-width: 220px;
+  .spatial-tile-parts.floating-panel {
+    width: clamp(220px, 32vw, 280px);
   }
 }
 
 @media (max-width: 768px) {
-  .floating-ui-wrapper {
-    /* Single column: build → details → parts (order follows DOM). */
-    grid-template-columns: 1fr;
-    gap: 12px;
+  .spatial-scene-root {
+    pointer-events: auto;
+    overflow-y: auto;
     padding: 12px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  }
+
+  .spatial-tile-build.floating-panel,
+  .spatial-tile-parts.floating-panel,
+  .spatial-tile-details-meta.floating-panel,
+  .spatial-tile-details-hint.floating-panel,
+  .spatial-tile-model-host {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0 auto 14px;
+  }
+
+  .spatial-tile-model-host {
+    height: 260px;
+    min-height: 220px;
+  }
+
+  .spatial-tile-build.floating-panel,
+  .spatial-tile-parts.floating-panel {
+    max-height: 55vh;
   }
 
   .floating-panel {
-    max-height: 60vh;
     padding: 14px;
-  }
-
-  .build-list-panel,
-  .details-panel,
-  .parts-list-panel {
-    /* Clear any grid-area hacks if introduced later. */
-    grid-area: unset;
   }
 }

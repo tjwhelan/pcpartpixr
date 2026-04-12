@@ -69,69 +69,63 @@ export function PCBuilder() {
     : {};
 
   return (
-    <main className="pc-builder" enable-xr-monitor>
-      <div className="floating-ui-wrapper">
-        {/* Left: Build List */}
-        <section className="floating-panel build-list-panel" enable-xr>
-          <BuildList
-            pc={pc}
-            onRemoveComponent={handleRemoveFromBuild}
-            totalPrice={totalPrice}
-            componentCount={componentCount}
-          />
-        </section>
+    <main className="pc-builder spatial-scene-root" enable-xr-monitor>
+      {/* Each section is its own spatialized plane; layout uses fixed anchors in 2D. */}
+      <section className="spatial-tile-build floating-panel build-list-panel" enable-xr>
+        <BuildList
+          pc={pc}
+          onRemoveComponent={handleRemoveFromBuild}
+          totalPrice={totalPrice}
+          componentCount={componentCount}
+        />
+      </section>
 
-        {/* Center: Details (always show) */}
-        <section className="floating-panel details-panel" enable-xr>
-          {selectedComponent ? (
-            <>
-              <div className="details-model-viewport" aria-label="3D preview">
-                <ComponentModelPreview pc={selectedForPreview} embedded />
-              </div>
-              <ComponentInfo component={selectedComponent} />
-              <button
-                className="add-to-build-btn"
-                onClick={() => handleAddToBuild(selectedComponent)}
-              >
-                Add to Build
-              </button>
-            </>
-          ) : (
-            <div className="details-placeholder">
-              <p>Select a component to view details</p>
-            </div>
-          )}
-        </section>
-
-        {/* Right: Parts List */}
-        <section className="floating-panel parts-list-panel" enable-xr>
-          <div className="panel-header">
-            <h2>PC Builder</h2>
-            <p className="panel-subtitle">Select components</p>
+      {selectedComponent ? (
+        <>
+          <ComponentModelPreview pc={selectedForPreview} asSpatialVolume />
+          <section className="spatial-tile-details-meta floating-panel" enable-xr>
+            <ComponentInfo component={selectedComponent} />
+            <button
+              className="add-to-build-btn"
+              onClick={() => handleAddToBuild(selectedComponent)}
+            >
+              Add to Build
+            </button>
+          </section>
+        </>
+      ) : (
+        <section className="spatial-tile-details-hint floating-panel" enable-xr>
+          <div className="details-placeholder">
+            <p>Select a component to view details</p>
           </div>
-
-          {/* Category Tabs */}
-          <div className="category-tabs">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                className={`category-tab ${selectedCategory === cat.id ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(cat.id)}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Component List */}
-          <ComponentSelector
-            category={selectedCategory}
-            components={componentsData[selectedCategory]}
-            selectedComponent={selectedComponent}
-            onSelectComponent={handleSelectComponent}
-          />
         </section>
-      </div>
+      )}
+
+      <section className="spatial-tile-parts floating-panel parts-list-panel" enable-xr>
+        <div className="panel-header">
+          <h2>PC Builder</h2>
+          <p className="panel-subtitle">Select components</p>
+        </div>
+
+        <div className="category-tabs">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`category-tab ${selectedCategory === cat.id ? 'active' : ''}`}
+              onClick={() => setSelectedCategory(cat.id)}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        <ComponentSelector
+          category={selectedCategory}
+          components={componentsData[selectedCategory]}
+          selectedComponent={selectedComponent}
+          onSelectComponent={handleSelectComponent}
+        />
+      </section>
     </main>
   );
 }
