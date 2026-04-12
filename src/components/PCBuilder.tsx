@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { PC, PCComponent, ComponentCategory } from '../types/pc';
 import componentsData from '../data/pcComponents.json';
 import { ComponentSelector } from './ComponentSelector';
@@ -6,6 +6,7 @@ import { ComponentModelPreview } from './ComponentModelPreview';
 import { ComponentInfo } from './ComponentInfo';
 import { BuildList } from './BuildList';
 import { SpatialPanel } from './SpatialPanel';
+import { AIOverviewPanel } from './AIOverviewPanel';
 
 type CategoryKey = keyof ComponentCategory;
 type PCKey = keyof PC;
@@ -25,6 +26,17 @@ export function PCBuilder() {
   const [pc, setPC] = useState<PC>({});
   const [selectedComponent, setSelectedComponent] = useState<PCComponent | undefined>();
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey>('cpus');
+  const [showAIPanel, setShowAIPanel] = useState(false);
+  const [aiAnalysis, setAIAnalysis] = useState<string | null>(null);
+  const [aiLoading, setAILoading] = useState(false);
+  const [aiError, setAIError] = useState<string | null>(null);
+
+  const totalPrice =
+    Object.values(pc).reduce((sum, component) => {
+      return sum + (component?.price || 0);
+    }, 0) || 0;
+
+  const componentCount = Object.values(pc).filter((c) => c).length;
 
   const categories: Array<{
     id: CategoryKey;
@@ -57,12 +69,40 @@ export function PCBuilder() {
     });
   };
 
-  const totalPrice =
-    Object.values(pc).reduce((sum, component) => {
-      return sum + (component?.price || 0);
-    }, 0) || 0;
+  const fetchAIAnalysis = useCallback(async () => {
+    setAILoading(true);
+    setAIError(null);
+    setAIAnalysis(null);
+    try {
+      const res = await fetch('/api/analyze-build', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ build: pc }),
+      });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error((errData as { error?: string }).error || `HTTP ${res.status}`);
+      }
+      const data = await res.json() as { analysis: string };
+      setAIAnalysis(data.analysis);
+    } catch (err) {
+      setAIError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setAILoading(false);
+    }
+  }, [pc]);
 
-  const componentCount = Object.values(pc).filter((c) => c).length;
+  useEffect(() => {
+    if (componentCount === 8) {
+      setShowAIPanel(true);
+      fetchAIAnalysis();
+    } else {
+      setShowAIPanel(false);
+      setAIAnalysis(null);
+      setAIError(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [componentCount]);
 
   const previewPcKey = categoryMap[selectedCategory];
   const selectedForPreview: PC = selectedComponent
@@ -162,6 +202,17 @@ export function PCBuilder() {
           onSelectComponent={handleSelectComponent}
         />
       </SpatialPanel>
+
+      {showAIPanel && (
+        <AIOverviewPanel
+          pc={pc}
+          analysis={aiAnalysis}
+          isLoading={aiLoading}
+          error={aiError}
+          onReanalyze={fetchAIAnalysis}
+          onDismiss={() => setShowAIPanel(false)}
+        />
+      )}
     </main>
   );
 }

@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { dbRun, dbAll, dbGet } from './database.js';
+import Anthropic from '@anthropic-ai/sdk';
+
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -129,6 +132,54 @@ app.delete('/api/tasks/:id', async (req, res) => {
     res.json({ message: 'Task deleted successfully', id: taskId });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+// ===== AI BUILD ANALYSIS ROUTE =====
+
+app.post('/api/analyze-build', async (req, res) => {
+  const { build } = req.body;
+  const required = ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'cooler', 'psu', 'case'];
+  const missing = required.filter((k) => !build[k]);
+  if (missing.length) return res.status(400).json({ error: `Missing: ${missing.join(', ')}` });
+
+  const totalPrice = required.reduce((s, k) => s + build[k].price, 0);
+  const buildSummary = required.map((k) => {
+    const c = build[k];
+    const specs = Object.entries(c.specs).map(([sk, sv]) => `      ${sk}: ${sv}`).join('\n');
+    return `${k.toUpperCase()} — ${c.brand} ${c.name} ($${c.price})\n    Specs:\n${specs}`;
+  }).join('\n\n');
+
+  const prompt = `You are an expert PC hardware analyst. Analyze this build for compatibility, performance, and value. Keep total response under 350 words.
+
+BUILD (Total: $${totalPrice.toLocaleString()}):
+${buildSummary}
+
+Structure your response with these exact headings:
+
+**COMPATIBILITY**
+Check CPU socket vs motherboard, RAM type vs motherboard support, PSU wattage vs total TDP, case form factor vs motherboard. Flag any mismatches as critical.
+
+**PERFORMANCE**
+Identify build tier (budget/mid/high-end/enthusiast) and any bottlenecks. Best use cases.
+
+**VALUE**
+Price-to-performance for this tier. Any overpriced components or obvious upgrade paths.
+
+**VERDICT**
+One sentence: rate Good / Decent / Needs Work and why.`;
+
+  try {
+    const msg = await anthropic.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 600,
+      messages: [{ role: 'user', content: prompt }],
+    });
+    const analysis = msg.content[0].type === 'text' ? msg.content[0].text : 'Analysis unavailable.';
+    res.json({ analysis });
+  } catch (err) {
+    console.error('AI analysis error:', err);
+    res.status(500).json({ error: 'Failed to generate build analysis' });
   }
 });
 

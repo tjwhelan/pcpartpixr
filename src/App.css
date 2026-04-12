@@ -794,6 +794,147 @@
 /* Breakpoints — tighten grid / stack on small viewports                      */
 /* -------------------------------------------------------------------------- */
 
+/* -------------------------------------------------------------------------- */
+/* AI Build Analysis panel — left of build tile, spawns on 8-component build  */
+/* -------------------------------------------------------------------------- */
+
+.spatial-tile-ai-overview.floating-panel {
+  position: fixed;
+  left: max(20px, env(safe-area-inset-left, 0px));
+  top: 50%;
+  width: min(480px, 92vw);
+  max-height: min(52vh, 480px);
+  overflow-y: auto;
+  pointer-events: auto;
+  --xr-back: 136px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  --xr-background-material: transparent;
+}
+
+/* Entrance wrapper — must not use transform (breaks position:fixed containment) */
+.ai-panel-entrance-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  animation: ai-panel-enter 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes ai-panel-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.ai-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0;
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+.ai-loading-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.ai-loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: ai-dot-pulse 1.2s ease-in-out infinite;
+}
+
+.ai-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.ai-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes ai-dot-pulse {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.85); }
+  40%            { opacity: 1;   transform: scale(1.15); }
+}
+
+.ai-analysis-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ai-section-heading {
+  margin: 10px 0 2px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ai-section-heading:first-child { margin-top: 0; }
+
+.ai-section-body {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text-strong);
+}
+
+.ai-error-state {
+  padding: 12px;
+  background: rgba(231, 76, 60, 0.08);
+  border: 1px solid rgba(231, 76, 60, 0.25);
+  border-radius: 8px;
+  font-size: 12px;
+  color: #c0392b;
+  line-height: 1.4;
+}
+
+.ai-action-row {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(15, 28, 45, 0.1);
+  flex-shrink: 0;
+}
+
+.ai-reanalyze-btn {
+  flex: 1;
+  padding: 9px 14px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.ai-reanalyze-btn:hover { background: #0f6b7a; transform: translateY(-1px); }
+.ai-reanalyze-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+.ai-dismiss-btn {
+  padding: 9px 14px;
+  background: transparent;
+  color: var(--text-soft);
+  border: 1px solid rgba(15, 28, 45, 0.2);
+  border-radius: 8px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ai-dismiss-btn:hover { background: rgba(255, 255, 255, 0.4); color: var(--text-strong); }
+
 @media (max-width: 1200px) {
   .spatial-tile-build.floating-panel {
     width: clamp(220px, 30vw, 280px);
@@ -815,11 +956,13 @@
   .spatial-tile-build.floating-panel,
   .spatial-tile-parts.floating-panel,
   .spatial-tile-details-panel.floating-panel,
+  .spatial-tile-ai-overview.floating-panel,
   .spatial-tile-model-host {
     position: relative;
     left: auto;
     right: auto;
     top: auto;
+    bottom: auto;
     width: 100%;
     max-width: none;
     max-height: none;
