@@ -43,7 +43,7 @@
         "rayTracingCores": 18176
       },
       "price": 1999,
-      "modelUrl": "/models/gpu-4090.glb"
+      "modelUrl": "/models/GPU_asus_rog_geforce_rtx_4090_v2.0.glb"
     },
     {
       "id": "gpu-2",
@@ -103,7 +103,7 @@
         "type": "DDR4"
       },
       "price": 399,
-      "modelUrl": "/models/ram-placeholder.glb"
+      "modelUrl": "/models/RAM_kingston_hyperx_fury_black_ram_module.glb"
     },
     {
       "id": "ram-2",
@@ -122,16 +122,16 @@
   "storage": [
     {
       "id": "ssd-1",
-      "name": "Samsung 990 Pro 2TB",
+      "name": "Samsung 990 Pro 1TB",
       "brand": "Samsung",
       "specs": {
-        "capacity": "2TB",
+        "capacity": "1TB",
         "type": "NVMe M.2 (Gen 4)",
         "sequentialRead": "7100 MB/s",
         "sequentialWrite": "6000 MB/s"
       },
       "price": 249,
-      "modelUrl": "/models/ssd-placeholder.glb"
+      "modelUrl": "/models/STORAGE_m.2_nvme_ssd_samsung_990_pro_1tb_3d_model.glb"
     },
     {
       "id": "ssd-2",
@@ -191,16 +191,16 @@
     },
     {
       "id": "case-2",
-      "name": "NZXT H7 Flow RGB",
-      "brand": "NZXT",
+      "name": "Corsair FRAME 4000d",
+      "brand": "Corsair",
       "specs": {
         "formFactor": "Mid Tower",
-        "maxGpuLength": "380mm",
+        "maxGpuLength": "430mm",
         "maxCpuCoolerHeight": "160mm",
         "fanSupport": "ATX, Micro-ATX, Mini-ITX"
       },
       "price": 149,
-      "modelUrl": "/models/case-placeholder.glb"
+      "modelUrl": "/models/CASE_corsair_4000d__pc_case.glb"
     }
   ],
   "coolers": [

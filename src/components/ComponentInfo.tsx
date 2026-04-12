@@ -8,7 +8,6 @@ export function ComponentInfo({ component }: ComponentInfoProps) {
   return (
     <div className="component-info surface-card" enable-xr>
       <div className="info-header">
-        <h4>{component.name}</h4>
         <span className="brand-badge">{component.brand}</span>
       </div>
 

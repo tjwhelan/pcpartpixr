@@ -4,9 +4,9 @@
  * Maps to React tree in PCBuilder.tsx:
  *   main.pc-builder.spatial-scene-root
  *     ├─ section.spatial-tile-build     → “Your Build” (fixed left)
- *     ├─ ComponentModelPreview (asSpatialVolume) OR section.spatial-tile-details-hint
- *     ├─ section.spatial-tile-details-meta (specs + CTA) when a part is selected
- *     └─ section.spatial-tile-parts      → catalog (fixed right)
+ *     ├─ ComponentModelPreview (asSpatialVolume) when a part is selected
+ *     ├─ SpatialPanel.spatial-tile-details-panel → specs / placeholder + shared header title
+ *     └─ SpatialPanel.spatial-tile-parts → catalog (fixed right)
  *
  * WebSpatial: each tile uses enable-xr; --xr-back separates planes in one spatial scene.
  */
@@ -66,7 +66,7 @@
   position: fixed;
   left: max(20px, env(safe-area-inset-left, 0px));
   top: 50%;
-  transform: translateY(-50%);
+  /* Centering + user offset: SpatialPanel.tsx inline transform */
   width: clamp(240px, 28vw, 300px);
   max-width: 300px;
   max-height: min(85vh, 720px);
@@ -79,7 +79,6 @@
   position: fixed;
   right: max(20px, env(safe-area-inset-right, 0px));
   top: 50%;
-  transform: translateY(-50%);
   width: clamp(260px, 32vw, 320px);
   max-width: 320px;
   max-height: min(85vh, 720px);
@@ -88,28 +87,66 @@
   --xr-back: 104px;
 }
 
-.spatial-tile-details-meta.floating-panel {
+/* Details column: one panel; position shifts when a 3D preview is shown above. */
+.spatial-tile-details-panel.floating-panel {
   position: fixed;
   left: 50%;
-  top: calc(36% + min(168px, 22vh));
-  transform: translateX(-50%);
   width: min(360px, 90vw);
-  max-height: min(42vh, 420px);
-  overflow-y: auto;
   pointer-events: auto;
-  --xr-back: 88px;
+  --xr-back: 100px;
 }
 
-.spatial-tile-details-hint.floating-panel {
-  position: fixed;
-  left: 50%;
+.spatial-tile-details-panel--idle {
   top: 36%;
-  transform: translate(-50%, -50%);
-  width: min(320px, 88vw);
   max-height: min(50vh, 360px);
+}
+
+.spatial-tile-details-panel--selected {
+  top: calc(36% + min(168px, 22vh));
+  max-height: min(42vh, 420px);
+}
+
+/* SpatialPanel: chrome header is the only spatial drag/magnify target; body scrolls. */
+.spatial-panel-root.floating-panel {
+  overflow: hidden;
+  gap: 0;
+  padding: 0;
+}
+
+.spatial-panel-drag-header {
+  flex-shrink: 0;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  border-bottom: 1px solid rgba(15, 28, 45, 0.12);
+}
+
+.spatial-panel-drag-header .panel-header {
+  margin-bottom: 0;
+}
+
+.spatial-panel-root.floating-panel .spatial-panel-drag-header {
+  padding: 14px 18px 12px;
+}
+
+.spatial-panel-body {
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  pointer-events: auto;
-  --xr-back: 120px;
+  padding: 14px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.spatial-panel-body > .build-list-content {
+  flex: 1;
+  min-height: 0;
+}
+
+.spatial-panel-body > .component-list {
+  flex: 1;
+  min-height: 0;
 }
 
 /* 3D volume tile: host box + optional glass fallback (section + ModelViewer). */
@@ -117,23 +154,44 @@
   position: fixed;
   left: 50%;
   top: 36%;
-  transform: translate(-50%, -50%);
   width: min(360px, 44vw);
   height: min(300px, 40vh);
   min-height: 200px;
   pointer-events: auto;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.spatial-tile-model-host > .spatial-panel-drag-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(28, 36, 48, 0.95) 0%, rgba(14, 18, 24, 0.92) 100%);
+  border-radius: 16px 16px 0 0;
+}
+
+.spatial-tile-model-header.panel-header {
+  margin-bottom: 0;
+}
+
+.spatial-tile-model-header h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(248, 252, 255, 0.92);
+  line-height: 1.3;
 }
 
 .spatial-tile-model-fallback.floating-panel {
-  display: flex;
-  flex-direction: column;
-  padding: 12px;
   max-height: min(340px, 45vh);
   height: min(300px, 40vh);
   min-height: 200px;
-  overflow: hidden;
   --xr-back: 156px;
+}
+
+.spatial-tile-model-fallback.floating-panel.spatial-panel-root {
+  padding: 0;
 }
 
 .details-model-viewport--spatial {
@@ -149,6 +207,11 @@
   overflow: hidden;
   background: linear-gradient(165deg, #0c1016 0%, #161d28 55%, #1a2432 100%);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.spatial-tile-model-host > .spatial-panel-body .spatial-tile-model-native {
+  border-radius: 0 0 14px 14px;
+  border-top: none;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -379,6 +442,15 @@
   min-height: 220px;
 }
 
+.spatial-tile-model-host .spatial-panel-body {
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .spatial-tile-model-host .spatial-component-model {
   width: 100%;
   height: 100%;
@@ -395,7 +467,7 @@
 
 .info-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-start;
   gap: 8px;
 }
@@ -652,14 +724,12 @@
 
   .spatial-tile-build.floating-panel,
   .spatial-tile-parts.floating-panel,
-  .spatial-tile-details-meta.floating-panel,
-  .spatial-tile-details-hint.floating-panel,
+  .spatial-tile-details-panel.floating-panel,
   .spatial-tile-model-host {
     position: relative;
     left: auto;
     right: auto;
     top: auto;
-    transform: none;
     width: 100%;
     max-width: none;
     max-height: none;

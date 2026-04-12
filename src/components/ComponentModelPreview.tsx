@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import { Model } from '@webspatial/react-sdk';
 import { ModelViewer } from './ModelViewer';
+import { SpatialPanel } from './SpatialPanel';
 import type { PC } from '../types/pc';
 import { hasWebSpatialRuntime } from '../utils/webspatialRuntime';
 
@@ -21,6 +22,8 @@ interface ComponentModelPreviewProps {
    * with the R3F viewport inside.
    */
   asSpatialVolume?: boolean;
+  /** Title in the spatial volume header (drag handle); used when `asSpatialVolume` is true. */
+  volumeTitle?: string;
 }
 
 /**
@@ -35,7 +38,12 @@ interface ComponentModelPreviewProps {
  * @see docs/api/react-sdk/react-components/Model.md
  * @see docs/api/react-sdk/css-api/transform.md
  */
-export function ComponentModelPreview({ pc, embedded, asSpatialVolume }: ComponentModelPreviewProps) {
+export function ComponentModelPreview({
+  pc,
+  embedded,
+  asSpatialVolume,
+  volumeTitle,
+}: ComponentModelPreviewProps) {
   const [drag, setDrag] = useState<DragT>(zero);
   const [idleDeg, setIdleDeg] = useState(0);
   const [isGrabbed, setIsGrabbed] = useState(false);
@@ -43,6 +51,7 @@ export function ComponentModelPreview({ pc, embedded, asSpatialVolume }: Compone
 
   const component = Object.values(pc).find((c) => c != null);
   const modelUrl = component?.modelUrl;
+  const volumeHeaderTitle = volumeTitle ?? component?.name ?? 'Preview';
 
   const onSpatialDragStart = useCallback(() => {
     setIsGrabbed(true);
@@ -134,20 +143,36 @@ export function ComponentModelPreview({ pc, embedded, asSpatialVolume }: Compone
   /* Spatial scene: volumetric <Model> or glass tile + R3F fallback — each is its own layout box. */
   if (componentCount === 0 || !hasRenderableModel || !useNative || !modelUrl) {
     return (
-      <section
+      <SpatialPanel
+        as="div"
         className="spatial-tile-model-host spatial-tile-model-fallback floating-panel"
-        enable-xr
-        aria-label="3D preview"
+        layoutTransform="translate(-50%, -50%)"
+        ariaLabel="3D preview"
+        header={
+          <div className="panel-header spatial-tile-model-header">
+            <h2>{volumeHeaderTitle}</h2>
+          </div>
+        }
       >
         <div className="details-model-viewport details-model-viewport--spatial">
           <ModelViewer pc={pc} embedded={embedded} />
         </div>
-      </section>
+      </SpatialPanel>
     );
   }
 
   return (
-    <div className="spatial-tile-model-host" aria-label="3D preview">
+    <SpatialPanel
+      as="div"
+      className="spatial-tile-model-host"
+      layoutTransform="translate(-50%, -50%)"
+      ariaLabel="3D preview"
+      header={
+        <div className="panel-header spatial-tile-model-header">
+          <h2>{volumeHeaderTitle}</h2>
+        </div>
+      }
+    >
       <Model
         enable-xr
         src={modelUrl}
@@ -163,6 +188,6 @@ export function ComponentModelPreview({ pc, embedded, asSpatialVolume }: Compone
           } as CSSProperties),
         }}
       />
-    </div>
+    </SpatialPanel>
   );
 }

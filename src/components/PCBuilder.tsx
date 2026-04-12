@@ -5,6 +5,7 @@ import { ComponentSelector } from './ComponentSelector';
 import { ComponentModelPreview } from './ComponentModelPreview';
 import { ComponentInfo } from './ComponentInfo';
 import { BuildList } from './BuildList';
+import { SpatialPanel } from './SpatialPanel';
 
 type CategoryKey = keyof ComponentCategory;
 type PCKey = keyof PC;
@@ -68,22 +69,55 @@ export function PCBuilder() {
     ? { [previewPcKey]: selectedComponent }
     : {};
 
+  const detailsLayout = selectedComponent
+    ? 'translateX(-50%)'
+    : 'translate(-50%, -50%)';
+
   return (
     <main className="pc-builder spatial-scene-root" enable-xr-monitor>
-      {/* Each section is its own spatialized plane; layout uses fixed anchors in 2D. */}
-      <section className="spatial-tile-build floating-panel build-list-panel" enable-xr>
+      <SpatialPanel
+        className="spatial-tile-build floating-panel build-list-panel"
+        layoutTransform="translateY(-50%)"
+        header={
+          <div className="panel-header">
+            <h2>Your Build</h2>
+            <p className="panel-subtitle">{componentCount} of 8 components</p>
+          </div>
+        }
+      >
         <BuildList
           pc={pc}
           onRemoveComponent={handleRemoveFromBuild}
           totalPrice={totalPrice}
           componentCount={componentCount}
+          showHeader={false}
         />
-      </section>
+      </SpatialPanel>
 
       {selectedComponent ? (
-        <>
-          <ComponentModelPreview pc={selectedForPreview} asSpatialVolume />
-          <section className="spatial-tile-details-meta floating-panel" enable-xr>
+        <ComponentModelPreview
+          pc={selectedForPreview}
+          asSpatialVolume
+          volumeTitle={selectedComponent.name}
+        />
+      ) : null}
+
+      <SpatialPanel
+        className={`spatial-tile-details-panel floating-panel ${
+          selectedComponent ? 'spatial-tile-details-panel--selected' : 'spatial-tile-details-panel--idle'
+        }`}
+        layoutTransform={detailsLayout}
+        header={
+          <div className="panel-header">
+            <h2>{selectedComponent ? selectedComponent.name : 'Select a Component'}</h2>
+            <p className="panel-subtitle">
+              {selectedComponent ? 'Details and specs' : 'Choose a part from the list'}
+            </p>
+          </div>
+        }
+      >
+        {selectedComponent ? (
+          <>
             <ComponentInfo component={selectedComponent} />
             <button
               className="add-to-build-btn"
@@ -91,22 +125,24 @@ export function PCBuilder() {
             >
               Add to Build
             </button>
-          </section>
-        </>
-      ) : (
-        <section className="spatial-tile-details-hint floating-panel" enable-xr>
+          </>
+        ) : (
           <div className="details-placeholder">
             <p>Select a component to view details</p>
           </div>
-        </section>
-      )}
+        )}
+      </SpatialPanel>
 
-      <section className="spatial-tile-parts floating-panel parts-list-panel" enable-xr>
-        <div className="panel-header">
-          <h2>PC Builder</h2>
-          <p className="panel-subtitle">Select components</p>
-        </div>
-
+      <SpatialPanel
+        className="spatial-tile-parts floating-panel parts-list-panel"
+        layoutTransform="translateY(-50%)"
+        header={
+          <div className="panel-header">
+            <h2>Components List</h2>
+            <p className="panel-subtitle">Select components</p>
+          </div>
+        }
+      >
         <div className="category-tabs">
           {categories.map((cat) => (
             <button
@@ -125,7 +161,7 @@ export function PCBuilder() {
           selectedComponent={selectedComponent}
           onSelectComponent={handleSelectComponent}
         />
-      </section>
+      </SpatialPanel>
     </main>
   );
 }

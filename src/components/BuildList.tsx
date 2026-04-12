@@ -5,6 +5,8 @@ interface BuildListProps {
   onRemoveComponent: (key: PCKey) => void;
   totalPrice: number;
   componentCount: number;
+  /** When false, omit the title block (shown in SpatialPanel header instead). */
+  showHeader?: boolean;
 }
 
 const categoryLabels: Record<PCKey, string> = {
@@ -23,17 +25,20 @@ export function BuildList({
   onRemoveComponent,
   totalPrice,
   componentCount,
+  showHeader = true,
 }: BuildListProps) {
   const buildItems = Object.entries(pc).filter(([, component]) => component);
 
   return (
     <div className="build-list-content">
-      <div className="panel-header">
-        <h2>Your Build</h2>
-        <p className="panel-subtitle">
-          {componentCount} of 8 components
-        </p>
-      </div>
+      {showHeader && (
+        <div className="panel-header">
+          <h2>Your Build</h2>
+          <p className="panel-subtitle">
+            {componentCount} of 8 components
+          </p>
+        </div>
+      )}
 
       <div className="build-items">
         {buildItems.length === 0 ? (
