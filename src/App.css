@@ -1,50 +1,91 @@
-/* ===== PC BUILDER STYLES ===== */
+/*
+ * App.css — PC Parts Picker (WebSpatial) layout and chrome
+ *
+ * Maps to React tree in PCBuilder.tsx:
+ *   main.pc-builder
+ *     └─ .floating-ui-wrapper          → three-column shell (build | details | parts)
+ *          ├─ section.build-list-panel  → “Your Build” (left)
+ *          ├─ section.details-panel     → selected part + 3D + specs (center)
+ *          └─ section.parts-list-panel  → category tabs + component cards (right)
+ *
+ * WebSpatial: panels use enable-xr; --xr-back / --xr-background-material affect depth
+ * and materials in spatial runtimes (see local docs/api for CSS APIs).
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Root shell — full viewport <main> from PCBuilder                           */
+/* -------------------------------------------------------------------------- */
 
 .pc-builder {
+  /* Establishes positioning context for any absolutely positioned descendants. */
   position: relative;
+  /* Fill #root so the builder uses the full app window. */
   width: 100%;
   height: 100%;
+  /* Clip content that exceeds the shell (prevents stray overflow from painting outside). */
   overflow: hidden;
   padding: 0;
+  /* Lets a parent (or WebSpatial scene) tint behind the UI via --scene-bg. */
   background: var(--scene-bg, transparent);
+  /* Vertical stack reserved for future header/footer; wrapper grows as flex child. */
   display: flex;
   flex-direction: column;
 }
 
-/* Floating UI Container */
+/* -------------------------------------------------------------------------- */
+/* Three-column grid — holds the floating glass panels                        */
+/* -------------------------------------------------------------------------- */
+
 .floating-ui-wrapper {
   position: relative;
+  /* Occupies remaining vertical space under any future top chrome. */
   flex: 1;
+  /* Allows this flex child to shrink so inner scroll areas can compute height. */
   min-height: 0;
+  /* Clicks pass through to the scene; re-enabled on .floating-panel below. */
   pointer-events: none;
+  /* Breathing room from viewport edges; --scene-padding from index.css (responsive). */
   padding: var(--scene-padding, 26px);
   z-index: 1;
+  /* Build (fixed-ish width) | Details (flexible) | Parts (fixed-ish width). */
   display: grid;
   grid-template-columns: minmax(260px, 300px) minmax(280px, 360px) minmax(280px, 320px);
+  /* Single row stretches to available height so columns align top-to-bottom. */
   grid-template-rows: 1fr;
   gap: clamp(12px, 1.5vw, 24px);
+  /* Grid tracks hug the start edge (left in LTR). */
   justify-content: start;
 }
 
-/* Floating Panels */
+/* -------------------------------------------------------------------------- */
+/* Shared “glass” tile — all three <section.floating-panel> panels            */
+/* -------------------------------------------------------------------------- */
+
 .floating-panel {
+  /* Restore hit-testing for buttons, scroll, and spatial interactions. */
   pointer-events: auto;
+  /* Stack header, body, and actions vertically inside each tile. */
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 18px;
   border-radius: 16px;
   border: 1px solid var(--line-strong);
+  /* Frosted translucent fill from design tokens (index.css). */
   background: var(--panel-fill);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px) saturate(135%);
   -webkit-backdrop-filter: blur(18px) saturate(135%);
+  /* Cap tile height so long lists scroll inside the panel, not the whole page. */
   max-height: 85vh;
   overflow-y: auto;
+  /* WebSpatial: Z offset of the element’s plane in the spatial scene (px). */
   --xr-back: 108px;
+  /* WebSpatial: use OS/runtime translucent material for the panel backplate. */
   --xr-background-material: translucent;
 }
 
+/* Scrollbar chrome for .floating-panel overflow (WebKit). */
 .floating-panel::-webkit-scrollbar {
   width: 6px;
 }
@@ -58,19 +99,26 @@
   border-radius: 3px;
 }
 
-/* Build List Panel (Left) */
+/* -------------------------------------------------------------------------- */
+/* Left column — “Your Build” (BuildList.tsx)                                 */
+/* -------------------------------------------------------------------------- */
+
 .build-list-panel {
+  /* Keeps the build column readable; matches first grid track. */
   min-width: 260px;
   max-width: 300px;
 }
 
 .build-list-content {
+  /* Vertical stack: title, list of parts, optional subtotal. */
   display: flex;
   flex-direction: column;
   gap: 12px;
+  /* Stretch within the panel so .build-items can flex and scroll. */
   height: 100%;
 }
 
+/* “Your Build” / “PC Builder” titles and subtitles (shared with right panel). */
 .panel-header {
   margin-bottom: 4px;
 }
@@ -90,6 +138,7 @@
 }
 
 .build-items {
+  /* Scrollable list of chosen CPU, GPU, etc. */
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -98,6 +147,7 @@
   overflow-y: auto;
 }
 
+/* One row in the build: category label, name, remove, price. */
 .build-item {
   display: flex;
   flex-direction: column;
@@ -137,6 +187,7 @@
 }
 
 .remove-btn {
+  /* Compact ✕ control to drop a part from the build. */
   width: 20px;
   height: 20px;
   padding: 0;
@@ -162,6 +213,7 @@
 }
 
 .empty-state {
+  /* Shown when the build has no parts yet. */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -178,6 +230,7 @@
 }
 
 .build-summary {
+  /* Subtotal strip at bottom of build list when items exist. */
   padding: 10px 12px;
   border: 1px solid rgba(15, 28, 45, 0.15);
   border-radius: 10px;
@@ -193,18 +246,24 @@
   font-weight: 600;
 }
 
-/* Details Panel (Center) */
+/* -------------------------------------------------------------------------- */
+/* Center column — selected part: ModelViewer + ComponentInfo + CTA           */
+/* -------------------------------------------------------------------------- */
+
 .details-panel {
+  /* Middle grid column; width band matches template middle track. */
   min-width: 280px;
   max-width: 360px;
 }
 
 .details-model-viewport {
+  /* Fixed-height box for react-three-fiber Canvas (3D GLB preview). */
   width: 100%;
   height: 240px;
   min-height: 220px;
   border-radius: 12px;
   overflow: hidden;
+  /* Dark stage so the model reads against glass UI. */
   background: linear-gradient(165deg, #0c1016 0%, #161d28 55%, #1a2432 100%);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
@@ -213,12 +272,14 @@
 }
 
 .details-model-viewport canvas {
+  /* R3F sometimes sets inline size; force fill the viewport. */
   display: block !important;
   width: 100% !important;
   height: 100% !important;
 }
 
 .component-info {
+  /* Specs + price block under the 3D viewport (ComponentInfo.tsx). */
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -241,6 +302,7 @@
 }
 
 .brand-badge {
+  /* Small pill next to product name (AMD, MSI, …). */
   font-size: 10px;
   padding: 2px 6px;
   border-radius: 4px;
@@ -267,6 +329,7 @@
 }
 
 .spec-row {
+  /* One spec line: label left, value right. */
   display: flex;
   justify-content: space-between;
   gap: 8px;
@@ -295,6 +358,7 @@
 }
 
 .add-to-build-btn {
+  /* Primary action: add highlighted part to the build. */
   padding: 10px 16px;
   background: var(--accent);
   color: white;
@@ -318,6 +382,7 @@
 }
 
 .details-placeholder {
+  /* Center message when no part is selected. */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -331,7 +396,10 @@
   margin: 0;
 }
 
-/* Parts List Panel (Right) */
+/* -------------------------------------------------------------------------- */
+/* Right column — category tabs + ComponentSelector cards                     */
+/* -------------------------------------------------------------------------- */
+
 .parts-list-panel {
   min-width: 280px;
   max-width: 320px;
@@ -341,6 +409,7 @@
 }
 
 .category-tabs {
+  /* CPU | Motherboard | GPU | … chips. */
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
@@ -372,6 +441,7 @@
 }
 
 .component-list {
+  /* Vertical list of selectable parts for the active category. */
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -381,6 +451,7 @@
 }
 
 .component-card {
+  /* One part card (button) in the catalog. */
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -402,6 +473,7 @@
 }
 
 .component-card.selected {
+  /* Mirrors the actively selected part (also shown in center column). */
   background: rgba(19, 126, 139, 0.15);
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent);
@@ -436,7 +508,10 @@
   font-weight: 700;
 }
 
-/* Scrollbar styling */
+/* -------------------------------------------------------------------------- */
+/* Scrollbar — .component-list only (panels use rules above)                  */
+/* -------------------------------------------------------------------------- */
+
 .component-list::-webkit-scrollbar {
   width: 5px;
 }
@@ -446,9 +521,13 @@
   border-radius: 2px;
 }
 
-/* Responsive Layout */
+/* -------------------------------------------------------------------------- */
+/* Breakpoints — tighten grid / stack on small viewports                      */
+/* -------------------------------------------------------------------------- */
+
 @media (max-width: 1400px) {
   .floating-ui-wrapper {
+    /* Slightly tighter fixed side columns; middle column grows with 1fr. */
     grid-template-columns: 260px 1fr 280px;
     gap: 12px;
   }
@@ -475,6 +554,7 @@
 
 @media (max-width: 768px) {
   .floating-ui-wrapper {
+    /* Single column: build → details → parts (order follows DOM). */
     grid-template-columns: 1fr;
     gap: 12px;
     padding: 12px;
@@ -488,6 +568,7 @@
   .build-list-panel,
   .details-panel,
   .parts-list-panel {
+    /* Clear any grid-area hacks if introduced later. */
     grid-area: unset;
   }
 }
