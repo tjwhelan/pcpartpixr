@@ -113,20 +113,52 @@
   padding: 0;
 }
 
-.spatial-panel-drag-header {
+.spatial-panel-chrome {
   flex-shrink: 0;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
   border-bottom: 1px solid rgba(15, 28, 45, 0.12);
 }
 
-.spatial-panel-drag-header .panel-header {
+.spatial-panel-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.spatial-panel-header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.spatial-panel-header-text .panel-header {
   margin-bottom: 0;
 }
 
-.spatial-panel-root.floating-panel .spatial-panel-drag-header {
+.spatial-panel-root.floating-panel .spatial-panel-chrome {
   padding: 14px 18px 12px;
+}
+
+/* Top-right spatial move / magnify target (teal — matches --accent). */
+.spatial-panel-move-handle {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: rgba(255, 255, 255, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  box-shadow:
+    0 2px 8px rgba(19, 126, 139, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.spatial-panel-move-handle:active {
+  cursor: grabbing;
 }
 
 .spatial-panel-body {
@@ -164,8 +196,8 @@
   overflow: hidden;
 }
 
-.spatial-tile-model-host > .spatial-panel-drag-header {
-  padding: 10px 14px;
+.spatial-tile-model-host > .spatial-panel-chrome {
+  padding: 10px 12px 10px 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: linear-gradient(180deg, rgba(28, 36, 48, 0.95) 0%, rgba(14, 18, 24, 0.92) 100%);
   border-radius: 16px 16px 0 0;

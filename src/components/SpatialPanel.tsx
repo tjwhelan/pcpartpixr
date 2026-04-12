@@ -6,6 +6,7 @@ import {
   type CSSProperties,
   type ReactNode,
 } from 'react';
+import { SpatialMoveIcon } from './SpatialMoveIcon';
 
 type Drag = { x: number; y: number; z: number };
 
@@ -37,10 +38,7 @@ type SpatialPanelProps = {
   style?: CSSProperties;
   /** Optional accessible name for the spatial tile. */
   ariaLabel?: string;
-  /**
-   * Drag / magnify hit target only — spatial gestures on the body do not move the panel
-   * (see docs/api/react-sdk/event-api/spatial-drag.md).
-   */
+  /** Title row (left); spatial move / magnify only on the top-right handle square. */
   header: ReactNode;
   children: ReactNode;
   /**
@@ -51,7 +49,7 @@ type SpatialPanelProps = {
 };
 
 /**
- * Spatialized tile: move and resize via pinch on the **header** only; body stays scrollable / interactive.
+ * Spatialized tile: move and resize via pinch on the **top-right handle** only.
  */
 export function SpatialPanel({
   as: Tag = 'section',
@@ -141,15 +139,21 @@ export function SpatialPanel({
         transform,
       }}
     >
-      <div
-        enable-xr
-        className="spatial-panel-drag-header"
-        onSpatialDrag={onSpatialDrag}
-        onSpatialDragEnd={onSpatialDragEnd}
-        onSpatialMagnify={onSpatialMagnify}
-        onSpatialMagnifyEnd={onSpatialMagnifyEnd}
-      >
-        {header}
+      <div className="spatial-panel-chrome">
+        <div className="spatial-panel-header-row">
+          <div className="spatial-panel-header-text">{header}</div>
+          <div
+            enable-xr
+            className="spatial-panel-move-handle"
+            onSpatialDrag={onSpatialDrag}
+            onSpatialDragEnd={onSpatialDragEnd}
+            onSpatialMagnify={onSpatialMagnify}
+            onSpatialMagnifyEnd={onSpatialMagnifyEnd}
+            aria-label="Move and resize panel in space"
+          >
+            <SpatialMoveIcon />
+          </div>
+        </div>
       </div>
       <div className="spatial-panel-body">{children}</div>
     </Tag>
