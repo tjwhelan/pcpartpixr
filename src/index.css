@@ -1,16 +1,16 @@
 :root {
-  --text: #203247;
-  --text-soft: rgba(32, 50, 71, 0.72);
-  --text-strong: #0f1c2d;
-  --line: rgba(95, 126, 161, 0.18);
-  --line-strong: rgba(95, 126, 161, 0.32);
-  --panel-fill: rgba(233, 240, 248, 0.82);
-  --panel-fill-strong: rgba(240, 246, 252, 0.90);
-  --accent: #137e8b;
-  --accent-warm: #ff8f4b;
+  --text: rgba(255, 255, 255, 0.88);
+  --text-soft: rgba(255, 255, 255, 0.58);
+  --text-strong: #ffffff;
+  --line: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.22);
+  --panel-fill: rgba(38, 38, 42, 0.88);
+  --panel-fill-strong: rgba(48, 48, 54, 0.92);
+  --accent: #e8a020;
+  --accent-warm: #e8a020;
   --shadow:
-    rgba(17, 35, 58, 0.16) 0 28px 56px -32px,
-    rgba(17, 35, 58, 0.16) 0 10px 24px -18px;
+    rgba(0, 0, 0, 0.28) 0 28px 56px -32px,
+    rgba(0, 0, 0, 0.22) 0 10px 24px -18px;
   --scene-padding: clamp(22px, 4vw, 54px);
 
   --sans: "Avenir Next", "SF Pro Display", "Segoe UI", sans-serif;
@@ -21,7 +21,7 @@
   font: 16px/1.5 var(--sans);
   letter-spacing: 0.02em;
   color: var(--text);
-  color-scheme: light;
+  color-scheme: dark;
   --xr-background-material: transparent;
   font-synthesis: none;
   text-rendering: optimizeLegibility;

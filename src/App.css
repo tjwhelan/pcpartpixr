@@ -115,7 +115,7 @@
 
 .spatial-panel-chrome {
   flex-shrink: 0;
-  border-bottom: 1px solid rgba(15, 28, 45, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .spatial-panel-header-row {
@@ -153,8 +153,8 @@
   user-select: none;
   -webkit-user-select: none;
   box-shadow:
-    0 2px 8px rgba(19, 126, 139, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    0 2px 8px rgba(232, 160, 32, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .spatial-panel-move-handle:active {
@@ -306,7 +306,7 @@
 }
 
 .floating-panel::-webkit-scrollbar-thumb {
-  background: rgba(15, 28, 45, 0.2);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
 }
 
@@ -365,7 +365,7 @@
   scrollbar-gutter: stable;
   /* Firefox: `auto` is far more visible than `thin`. */
   scrollbar-width: auto;
-  scrollbar-color: var(--accent) rgba(15, 28, 45, 0.14);
+  scrollbar-color: var(--accent) rgba(255, 255, 255, 0.08);
   /* Ensures overflow with a full 8-part build on common viewports (not only flex shrink). */
   max-height: min(42vh, 320px);
   padding-right: 2px;
@@ -377,21 +377,21 @@
 }
 
 .spatial-tile-build .build-items::-webkit-scrollbar-track {
-  background: rgba(15, 28, 45, 0.1);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 6px;
   margin: 4px 2px;
-  border: 1px solid rgba(15, 28, 45, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .spatial-tile-build .build-items::-webkit-scrollbar-thumb {
-  background: rgba(19, 126, 139, 0.82);
+  background: rgba(232, 160, 32, 0.72);
   border-radius: 6px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(0, 0, 0, 0.3);
   min-height: 44px;
 }
 
 .spatial-tile-build .build-items::-webkit-scrollbar-thumb:hover {
-  background: rgba(19, 126, 139, 0.95);
+  background: rgba(232, 160, 32, 0.92);
 }
 
 /* Full PC GLB spawned to the left of “Your Build”; tile shifts right so they don’t overlap. */
@@ -439,7 +439,7 @@
   margin-top: 4px;
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(15, 28, 45, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   --xr-back: 8px;
   font-family: var(--sans);
   font-size: 13px;
@@ -452,15 +452,15 @@
 }
 
 .create-pc-model-btn:disabled {
-  background: rgba(15, 28, 45, 0.1);
-  color: rgba(32, 50, 71, 0.42);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.32);
   cursor: not-allowed;
 }
 
 .create-pc-model-btn:disabled.create-pc-model-btn--placed {
-  background: rgba(19, 126, 139, 0.14);
+  background: rgba(232, 160, 32, 0.14);
   color: var(--accent);
-  border-color: rgba(19, 126, 139, 0.28);
+  border-color: rgba(232, 160, 32, 0.28);
 }
 
 .create-pc-model-btn:not(:disabled) {
@@ -471,7 +471,7 @@
 }
 
 .create-pc-model-btn:not(:disabled):hover {
-  background: #0f6b7a;
+  background: #c4880e;
 }
 
 .create-pc-model-btn:not(:disabled):active {
@@ -484,15 +484,15 @@
   flex-direction: column;
   gap: 8px;
   padding: 10px 12px;
-  border: 1px solid rgba(15, 28, 45, 0.12);
-  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
   border-radius: 10px;
   transition: all 0.2s;
   --xr-back: 8px;
 }
 
 .build-item:hover {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .item-header {
@@ -563,9 +563,9 @@
 .build-summary {
   /* Subtotal strip at bottom of build list when items exist. */
   padding: 10px 12px;
-  border: 1px solid rgba(15, 28, 45, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.07);
   --xr-back: 8px;
 }
 
@@ -596,8 +596,8 @@
   overflow: hidden;
   /* Dark stage so the model reads against glass UI. */
   background: linear-gradient(165deg, #0c1016 0%, #161d28 55%, #1a2432 0%); 
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
   position: relative;
 }
@@ -659,7 +659,7 @@
   font-size: 10px;
   padding: 2px 6px;
   border-radius: 4px;
-  background: rgba(19, 126, 139, 0.15);
+  background: rgba(232, 160, 32, 0.15);
   color: var(--accent);
   white-space: nowrap;
   text-transform: uppercase;
@@ -704,7 +704,7 @@
 
 .info-price {
   padding-top: 8px;
-  border-top: 1px solid rgba(15, 28, 45, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 14px;
   color: var(--accent);
   font-weight: 700;
@@ -726,7 +726,7 @@
 }
 
 .add-to-build-btn:hover {
-  background: #0f6b7a;
+  background: #c4880e;
   transform: translateY(-1px);
 }
 
@@ -770,9 +770,9 @@
 
 .category-tab {
   padding: 6px 10px;
-  border: 1px solid rgba(15, 28, 45, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.07);
   color: var(--text-soft);
   font-family: var(--sans);
   font-size: 11px;
@@ -783,8 +783,8 @@
 }
 
 .category-tab:hover {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(15, 28, 45, 0.3);
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .category-tab.active {
@@ -809,8 +809,8 @@
   flex-direction: column;
   gap: 8px;
   padding: 10px;
-  border: 1px solid rgba(15, 28, 45, 0.12);
-  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
@@ -820,14 +820,14 @@
 }
 
 .component-card:hover {
-  background: rgba(255, 255, 255, 0.72);
-  border-color: rgba(15, 28, 45, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
   transform: translateY(-1px);
 }
 
 .component-card.selected {
   /* Mirrors the actively selected part (also shown in center column). */
-  background: rgba(19, 126, 139, 0.15);
+  background: rgba(232, 160, 32, 0.15);
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent);
 }
@@ -855,7 +855,7 @@
 
 .component-price {
   padding-top: 4px;
-  border-top: 1px solid rgba(15, 28, 45, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 12px;
   color: var(--accent);
   font-weight: 700;
@@ -870,7 +870,7 @@
 }
 
 .component-list::-webkit-scrollbar-thumb {
-  background: rgba(15, 28, 45, 0.2);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 2px;
 }
 
