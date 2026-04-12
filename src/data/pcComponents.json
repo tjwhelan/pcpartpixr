@@ -215,7 +215,7 @@
         "compatibility": "LGA775, AM2, AM4, LGA1700, LGA1851"
       },
       "price": 99,
-      "modelUrl": "/models/cooler-placeholder.glb"
+      "modelUrl": "/models/cpu_cooler.glb"
     },
     {
       "id": "cooler-2",

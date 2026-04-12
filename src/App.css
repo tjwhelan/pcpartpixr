@@ -116,7 +116,7 @@
   -webkit-backdrop-filter: none;
   --xr-background-material: transparent;
   height: 1000px;
-  max-height: min(85vh, 1000px);
+  max-height: min(100vh, 1200px);
   overflow: hidden;
 }
 .spatial-tile-parts.floating-panel.spatial-panel-root {
@@ -413,7 +413,7 @@
   overflow-y: auto;
   scrollbar-gutter: stable;
   scrollbar-width: auto;
-  scrollbar-color: var(--accent) rgba(255, 255, 255, 0.08);
+  scrollbar-color: var(--accent) rgba(255, 255, 255, 0.90);
   padding-right: 2px;
   box-sizing: border-box;
 }
@@ -609,9 +609,9 @@
 .build-summary {
   /* Subtotal strip at bottom of build list when items exist. */
   padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(6, 1, 32, 0.8);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(2, 0, 27, 0.8);
   --xr-back: 8px;
 }
 
