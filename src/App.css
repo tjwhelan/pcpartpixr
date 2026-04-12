@@ -69,8 +69,8 @@
   /* Centering + user offset: SpatialPanel.tsx inline transform */
   width: clamp(240px, 28vw, 300px);
   max-width: 300px;
+  height: auto;
   max-height: min(85vh, 720px);
-  overflow-y: auto;
   pointer-events: auto;
   --xr-back: 72px;
 }
@@ -81,8 +81,8 @@
   top: 50%;
   width: clamp(260px, 32vw, 320px);
   max-width: 320px;
+  height: auto;
   max-height: min(85vh, 720px);
-  overflow-y: auto;
   pointer-events: auto;
   --xr-back: 104px;
 }
@@ -104,6 +104,21 @@
 .spatial-tile-details-panel--selected {
   top: calc(36% + min(168px, 22vh));
   max-height: min(42vh, 420px);
+}
+
+/* Your Build + Components list: same background stack as details volumetric tile (.spatial-tile-model-native).
+   Tile height grows with rows until max-height; then the list region scrolls inside so the gradient always wraps all content. */
+.spatial-tile-build.floating-panel.spatial-panel-root,
+.spatial-tile-parts.floating-panel.spatial-panel-root {
+  background: linear-gradient(165deg, #0c1016 0%, #161d28 55%, #1a2432 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  --xr-background-material: transparent;
+  height: auto;
+  max-height: min(85vh, 720px);
+  overflow: hidden;
 }
 
 /* SpatialPanel: chrome header is the only spatial drag/magnify target; body scrolls. */
@@ -179,19 +194,23 @@
 /* “Your Build”: keep subtotal visible; scroll only the parts list (visible scrollbar on .build-items).
    The panel root uses .floating-panel’s 0-width scrollbar, so body-level scroll felt “cut off”. */
 .spatial-tile-build.spatial-panel-root {
-  min-height: 0;
+  min-height: auto;
 }
 
 .spatial-tile-build .spatial-panel-body {
-  overflow: hidden;
+  flex: 1 1 auto;
   min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .spatial-tile-build .build-list-content {
-  /* Avoid height:100% + flex fighting (blocks .build-items from getting a bounded scroll area). */
+  flex: 1 1 auto;
   min-height: 0;
   height: auto;
-  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
 }
 
 .spatial-tile-build .build-summary {
@@ -201,6 +220,25 @@
 .spatial-panel-body > .component-list {
   flex: 1;
   min-height: 0;
+}
+
+.spatial-tile-parts .spatial-panel-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.spatial-tile-parts .spatial-panel-body > .component-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.spatial-tile-parts .spatial-panel-body > .category-tabs {
+  flex-shrink: 0;
 }
 
 /* 3D volume tile: host box + optional glass fallback (section + ModelViewer). */
@@ -358,16 +396,14 @@
   overflow-y: auto;
 }
 
-/* Your Build tile: scrollbar tuned for Windows overlay scrollbars + Firefox. */
+/* Your Build: list scrolls inside the growing tile; subtotal + CTA stay below the scroll region. */
 .spatial-tile-build .build-items {
-  /* Reserve gutter; `scroll` encourages a persistent track where the engine allows it. */
-  overflow-y: scroll;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
   scrollbar-gutter: stable;
-  /* Firefox: `auto` is far more visible than `thin`. */
   scrollbar-width: auto;
   scrollbar-color: var(--accent) rgba(255, 255, 255, 0.08);
-  /* Ensures overflow with a full 8-part build on common viewports (not only flex shrink). */
-  max-height: min(42vh, 320px);
   padding-right: 2px;
   box-sizing: border-box;
 }
