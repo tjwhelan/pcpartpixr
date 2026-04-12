@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:cf": "node scripts/cloudflared-dev.mjs",
+    "tunnel:cf": "node scripts/cloudflared-tunnel.mjs",
     "dev:webspatial": "npx webspatial-builder run --base=http://localhost:5173/",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
