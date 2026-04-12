@@ -108,7 +108,17 @@
 
 /* Your Build + Components list: same background stack as details volumetric tile (.spatial-tile-model-native).
    Tile height grows with rows until max-height; then the list region scrolls inside so the gradient always wraps all content. */
-.spatial-tile-build.floating-panel.spatial-panel-root,
+.spatial-tile-build.floating-panel.spatial-panel-root {
+  background: linear-gradient(165deg, #0c1016 0%, #161d28 55%, #1a2432 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  --xr-background-material: transparent;
+  height: 1000px;
+  max-height: min(85vh, 1000px);
+  overflow: hidden;
+}
 .spatial-tile-parts.floating-panel.spatial-panel-root {
   background: linear-gradient(165deg, #0c1016 0%, #161d28 55%, #1a2432 100%);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -116,8 +126,8 @@
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   --xr-background-material: transparent;
-  height: auto;
-  max-height: min(85vh, 720px);
+  height: 550px;
+  max-height: min(85vh, 1000px);
   overflow: hidden;
 }
 
