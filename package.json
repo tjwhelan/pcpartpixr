@@ -11,10 +11,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "@webspatial/core-sdk": "^1.4.0",
+    "@webspatial/react-sdk": "^1.4.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "@webspatial/core-sdk": "^1.4.0",
-    "@webspatial/react-sdk": "^1.4.0"
+    "three": "^0.183.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

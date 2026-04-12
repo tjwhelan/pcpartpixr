@@ -1,0 +1,234 @@
+{
+  "cpus": [
+    {
+      "id": "cpu-1",
+      "name": "AMD Ryzen 7 5700X3D",
+      "brand": "AMD",
+      "specs": {
+        "cores": 8,
+        "threads": 16,
+        "baseClock": "3.4 GHz",
+        "boostClock": "4.5 GHz",
+        "tdp": "105W"
+      },
+      "price": 299,
+      "modelUrl": "/models/CPU_amd_ryzen_7_5700x3d.glb"
+    },
+    {
+      "id": "cpu-2",
+      "name": "Intel Core i9-14900KS",
+      "brand": "Intel",
+      "specs": {
+        "cores": 24,
+        "threads": 32,
+        "baseClock": "3.2 GHz",
+        "boostClock": "6.2 GHz",
+        "tdp": "250W"
+      },
+      "price": 699,
+      "modelUrl": "/models/test.glb"
+    }
+  ],
+  "gpus": [
+    {
+      "id": "gpu-1",
+      "name": "NVIDIA RTX 4090",
+      "brand": "NVIDIA",
+      "specs": {
+        "memory": "24GB GDDR6X",
+        "memoryBus": "384-bit",
+        "baseClockMhz": 2230,
+        "boostClockMhz": 2520,
+        "tdp": "450W",
+        "rayTracingCores": 18176
+      },
+      "price": 1999,
+      "modelUrl": "/models/gpu-4090.glb"
+    },
+    {
+      "id": "gpu-2",
+      "name": "AMD Radeon RX 7900 XTX",
+      "brand": "AMD",
+      "specs": {
+        "memory": "24GB GDDR6",
+        "memoryBus": "384-bit",
+        "baseClockMhz": 2015,
+        "boostClockMhz": 2505,
+        "tdp": "420W",
+        "streamProcessors": 6144
+      },
+      "price": 799,
+      "modelUrl": "/models/gpu-placeholder.glb"
+    }
+  ],
+  "motherboards": [
+    {
+      "id": "mobo-1",
+      "name": "ASUS ROG Maximus Z890-E",
+      "brand": "ASUS",
+      "specs": {
+        "socket": "LGA1851",
+        "formFactor": "ATX",
+        "ramSlots": 4,
+        "maxRam": "288GB",
+        "pciSlots": 3
+      },
+      "price": 599,
+      "modelUrl": "/models/mobo-placeholder.glb"
+    },
+    {
+      "id": "mobo-2",
+      "name": "MSI B550 Gaming Plus",
+      "brand": "MSI",
+      "specs": {
+        "socket": "AM4",
+        "formFactor": "ATX",
+        "ramSlots": 4,
+        "maxRam": "128GB",
+        "pciSlots": 3
+      },
+      "price": 149,
+      "modelUrl": "/models/MOTHERBOARD_msi_b550_gaming_plus.glb"
+    }
+  ],
+  "ram": [
+    {
+      "id": "ram-1",
+      "name": "Corsair Dominator Elite RGB 48GB",
+      "brand": "Corsair",
+      "specs": {
+        "capacity": "48GB (2x24GB)",
+        "speed": "6000MHz",
+        "latency": "CAS 30",
+        "type": "DDR5"
+      },
+      "price": 399,
+      "modelUrl": "/models/ram-placeholder.glb"
+    },
+    {
+      "id": "ram-2",
+      "name": "Kingston FURY Beast 32GB",
+      "brand": "Kingston",
+      "specs": {
+        "capacity": "32GB (2x16GB)",
+        "speed": "6000MHz",
+        "latency": "CAS 30",
+        "type": "DDR5"
+      },
+      "price": 249,
+      "modelUrl": "/models/ram-placeholder.glb"
+    }
+  ],
+  "storage": [
+    {
+      "id": "ssd-1",
+      "name": "Samsung 990 Pro 2TB",
+      "brand": "Samsung",
+      "specs": {
+        "capacity": "2TB",
+        "type": "NVMe M.2 (Gen 4)",
+        "sequentialRead": "7100 MB/s",
+        "sequentialWrite": "6000 MB/s"
+      },
+      "price": 249,
+      "modelUrl": "/models/ssd-placeholder.glb"
+    },
+    {
+      "id": "ssd-2",
+      "name": "WD Black SN850X 1TB",
+      "brand": "Western Digital",
+      "specs": {
+        "capacity": "1TB",
+        "type": "NVMe M.2 (Gen 4)",
+        "sequentialRead": "7100 MB/s",
+        "sequentialWrite": "6000 MB/s"
+      },
+      "price": 129,
+      "modelUrl": "/models/ssd-placeholder.glb"
+    }
+  ],
+  "psu": [
+    {
+      "id": "psu-1",
+      "name": "Corsair M1000 Inspired",
+      "brand": "Corsair",
+      "specs": {
+        "wattage": "1000W",
+        "efficiency": "80+ Gold",
+        "modularity": "Fully Modular",
+        "formFactor": "ATX"
+      },
+      "price": 199,
+      "modelUrl": "/models/PSU_m1000_inspired_by_corsair_hx1000_free.glb"
+    },
+    {
+      "id": "psu-2",
+      "name": "EVGA SuperNOVA 850 P6",
+      "brand": "EVGA",
+      "specs": {
+        "wattage": "850W",
+        "efficiency": "80+ Platinum",
+        "modularity": "Fully Modular",
+        "formFactor": "ATX"
+      },
+      "price": 179,
+      "modelUrl": "/models/psu-placeholder.glb"
+    }
+  ],
+  "cases": [
+    {
+      "id": "case-1",
+      "name": "Lian Li O11 Dynamic",
+      "brand": "Lian Li",
+      "specs": {
+        "formFactor": "Full Tower",
+        "maxGpuLength": "420mm",
+        "maxCpuCoolerHeight": "170mm",
+        "expandableTo": "Dual Chamber"
+      },
+      "price": 189,
+      "modelUrl": "/models/case-o11.glb"
+    },
+    {
+      "id": "case-2",
+      "name": "NZXT H7 Flow RGB",
+      "brand": "NZXT",
+      "specs": {
+        "formFactor": "Mid Tower",
+        "maxGpuLength": "380mm",
+        "maxCpuCoolerHeight": "160mm",
+        "fanSupport": "ATX, Micro-ATX, Mini-ITX"
+      },
+      "price": 149,
+      "modelUrl": "/models/case-placeholder.glb"
+    }
+  ],
+  "coolers": [
+    {
+      "id": "cooler-1",
+      "name": "Noctua NH-D15",
+      "brand": "Noctua",
+      "specs": {
+        "type": "Air Tower",
+        "height": "165mm",
+        "tdpRating": "250W",
+        "compatibility": "LGA775, AM2, AM4, LGA1700, LGA1851"
+      },
+      "price": 99,
+      "modelUrl": "/models/cooler-placeholder.glb"
+    },
+    {
+      "id": "cooler-2",
+      "name": "Corsair iCUE H170i ELITE CAPELLIX",
+      "brand": "Corsair",
+      "specs": {
+        "type": "Liquid AIO",
+        "radiatorSize": "360mm",
+        "tdpRating": "300W",
+        "compatibility": "LGA1700, LGA1851, AM5"
+      },
+      "price": 199,
+      "modelUrl": "/models/cooler-placeholder.glb"
+    }
+  ]
+}

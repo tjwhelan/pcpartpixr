@@ -1,8 +1,8 @@
 import './App.css'
-import { TaskManager } from './components/TaskManager'
+import { PCBuilder } from './components/PCBuilder'
 
 function App() {
-  return <TaskManager />
+  return <PCBuilder />
 }
 
 export default App
