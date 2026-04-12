@@ -176,6 +176,28 @@
   min-height: 0;
 }
 
+/* “Your Build”: keep subtotal visible; scroll only the parts list (visible scrollbar on .build-items).
+   The panel root uses .floating-panel’s 0-width scrollbar, so body-level scroll felt “cut off”. */
+.spatial-tile-build.spatial-panel-root {
+  min-height: 0;
+}
+
+.spatial-tile-build .spatial-panel-body {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.spatial-tile-build .build-list-content {
+  /* Avoid height:100% + flex fighting (blocks .build-items from getting a bounded scroll area). */
+  min-height: 0;
+  height: auto;
+  flex: 1 1 0%;
+}
+
+.spatial-tile-build .build-summary {
+  flex-shrink: 0;
+}
+
 .spatial-panel-body > .component-list {
   flex: 1;
   min-height: 0;
@@ -276,7 +298,7 @@
 
 /* Scrollbar chrome for .floating-panel overflow (WebKit). */
 .floating-panel::-webkit-scrollbar {
-  width: 0px;
+  width: 8px;
 }
 
 .floating-panel::-webkit-scrollbar-track {
@@ -334,6 +356,42 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+}
+
+/* Your Build tile: scrollbar tuned for Windows overlay scrollbars + Firefox. */
+.spatial-tile-build .build-items {
+  /* Reserve gutter; `scroll` encourages a persistent track where the engine allows it. */
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  /* Firefox: `auto` is far more visible than `thin`. */
+  scrollbar-width: auto;
+  scrollbar-color: var(--accent) rgba(15, 28, 45, 0.14);
+  /* Ensures overflow with a full 8-part build on common viewports (not only flex shrink). */
+  max-height: min(42vh, 320px);
+  padding-right: 2px;
+  box-sizing: border-box;
+}
+
+.spatial-tile-build .build-items::-webkit-scrollbar {
+  width: 11px;
+}
+
+.spatial-tile-build .build-items::-webkit-scrollbar-track {
+  background: rgba(15, 28, 45, 0.1);
+  border-radius: 6px;
+  margin: 4px 2px;
+  border: 1px solid rgba(15, 28, 45, 0.12);
+}
+
+.spatial-tile-build .build-items::-webkit-scrollbar-thumb {
+  background: rgba(19, 126, 139, 0.82);
+  border-radius: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  min-height: 44px;
+}
+
+.spatial-tile-build .build-items::-webkit-scrollbar-thumb:hover {
+  background: rgba(19, 126, 139, 0.95);
 }
 
 /* One row in the build: category label, name, remove, price. */
