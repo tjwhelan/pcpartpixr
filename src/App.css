@@ -516,7 +516,28 @@
   cursor: pointer;
 }
 
-.create-pc-model-btn:not(:disabled):hover {
+/* Full build (8/8): obvious lit orange — class + rules so WebSpatial / UA can’t wash it out. */
+.create-pc-model-btn.create-pc-model-btn--ready {
+  background: linear-gradient(165deg, #ffb82e 0%, #e8a020 45%, #c4880e 100%);
+  color: #141004;
+  border: 1px solid rgba(255, 220, 150, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(232, 160, 32, 0.35),
+    0 6px 22px rgba(232, 160, 32, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  opacity: 1;
+}
+
+.create-pc-model-btn.create-pc-model-btn--ready:hover {
+  background: linear-gradient(165deg, #ffc44a 0%, #f0a828 45%, #d69812 100%);
+  border-color: rgba(255, 230, 180, 1);
+  box-shadow:
+    0 0 0 1px rgba(255, 200, 100, 0.5),
+    0 8px 26px rgba(232, 160, 32, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.create-pc-model-btn:not(:disabled):not(.create-pc-model-btn--ready):hover {
   background: #c4880e;
 }
 

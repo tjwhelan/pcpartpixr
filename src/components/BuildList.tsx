@@ -90,7 +90,13 @@ export function BuildList({
       <button
         type="button"
         enable-xr
-        className={`create-pc-model-btn${fullPcModelPlaced ? ' create-pc-model-btn--placed' : ''}`}
+        className={[
+          'create-pc-model-btn',
+          fullPcModelPlaced && 'create-pc-model-btn--placed',
+          canCreatePcModel && !fullPcModelPlaced && 'create-pc-model-btn--ready',
+        ]
+          .filter(Boolean)
+          .join(' ')}
         disabled={!canCreatePcModel || fullPcModelPlaced}
         onClick={onCreatePcModel}
       >
